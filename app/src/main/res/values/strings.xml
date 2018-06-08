@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Cookie Jar Inventory App</string>
+
+    <!-- Strings used in activity_edit_cookie.xml -->
+    <!-- Labels -->
+    <string name="cookie_info">Cookie info</string>
+    <string name="cookie_type">Type</string>
+    <string name="cookie_supplier">Supplier info</string>
+
+    <!-- Hints -->
+    <string name="cookie_name">For ex. Wafer ABC</string>
+    <string name="cookie_price">For ex. 12.50</string>
+    <string name="cookie_quantity">1</string>
+    <string name="cookie_supplier_name">For ex. Acme, Inc.</string>
+    <string name="cookie_supplier_phone_nr">For ex. 0045 1234 5678</string>
+
+    <!-- Miscellaneous -->
+    <string name="currency">SEK</string>
+
+
+    <!-- Strings used in menu_cookie_catalog.xml -->
+    <string name="insert_dummy_data">Insert dummy data</string>
+    <string name="delete_all_entries">Delete all entries</string>
+
+    <!-- Strings used in menu_edit_cookie.xml -->
+    <string name="save_cookie">Save cookie</string>
+    <string name="delete_cookie">Delete cookie</string>
+
 </resources>

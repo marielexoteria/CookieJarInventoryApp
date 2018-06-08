@@ -7,6 +7,8 @@ public final class CookieJarContract {
 
         public static final String TABLE_NAME = "cookies";
 
+        //Add the field for the picture later
+
         //Table fields
         public static final String _ID = BaseColumns._ID;
         public static final String COOKIE_NAME = "name";

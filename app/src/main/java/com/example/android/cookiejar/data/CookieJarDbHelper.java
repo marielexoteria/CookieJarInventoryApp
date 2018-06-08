@@ -21,11 +21,10 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
 
     }
 
-    //CREATE TABLE cookies (_id INTEGER, name TEXT, price REAL, quantity INTEGER, type INTEGER,
-    // supplier_name TEXT, supplier_phone INTEGER);
+    //Add the field for the picture later
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase cookieDB) {
 
         //String to create the table using the constants from the PetContract class
         String SQL_CREATE_COOKIE_TABLE = "CREATE TABLE " + CookieEntry.TABLE_NAME + "("
@@ -38,7 +37,7 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
                 + CookieEntry.COOKIE_SUPPLIER_PHONE_NR + " INTEGER NOT NULL)";
 
         //Create the table
-        db.execSQL(SQL_CREATE_COOKIE_TABLE);
+        cookieDB.execSQL(SQL_CREATE_COOKIE_TABLE);
     }
 
     @Override
