@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for the editor -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_horizontal"
+    tools:context=".EditCookie">
+
+    <!-- Cookie info category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Cookie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <!-- Cookie name field -->
+            <EditText
+                android:id="@+id/edit_cookie_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="For ex. wafer"
+                android:inputType="textCapWords"/>
+
+            <!-- Cookie price field -->
+            <EditText
+                android:id="@+id/edit_cookie_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="For ex. 12.50"
+                android:inputType="textCapWords" />
+
+            <!-- Cookie quantity field -->
+            <EditText
+                android:id="@+id/edit_cookie_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="For ex. 10"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Cookie type -->
+    <LinearLayout
+        android:id="@+id/container_cookie_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Input field -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!-- Type drop-down spinner -->
+            <Spinner
+                android:id="@+id/spinner_cookie_type"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:paddingRight="16dp"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Supplier info -->
+    <LinearLayout
+        android:id="@+id/container_supplier_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="Supplier info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <!-- Supplier name field -->
+            <EditText
+                android:id="@+id/edit_cookie_supplier_name"
+                android:hint="For ex. Acme, Inc."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Supplier phone number field -->
+            <EditText
+                android:id="@+id/edit_cookie_supplier_phone"
+                android:hint="For ex. 12345678"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

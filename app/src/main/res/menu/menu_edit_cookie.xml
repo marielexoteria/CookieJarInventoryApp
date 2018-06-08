@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Options menu for the EditorCookie activity -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EditCookie">
+
+    <item
+        android:id="@+id/action_save"
+        android:title="Save cookie"
+        android:icon="@drawable/ic_done"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="Delete cookie"
+        app:showAsAction="never" />
+</menu>

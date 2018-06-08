@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Options menu for the CookieCatalog -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".CookieCatalog">
+
+<item
+    android:id="@+id/action_insert_dummy_data"
+    android:title="Insert dummy data"
+    app:showAsAction="never" />
+
+<item
+    android:id="@+id/action_delete_all_entries"
+    android:title="Delete all data"
+    app:showAsAction="never" />
+</menu>
