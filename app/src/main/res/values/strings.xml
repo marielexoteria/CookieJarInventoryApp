@@ -32,5 +32,12 @@
     <!-- Temp strings used in CookieCatalog.java. Will most likely
     be deleted when the app is finished -->
     <string name="db_row_info">Number of cookies in the cookie jar:\u0020</string>
+    <string name="title_activity_nav_drawer">"Cookie Jar Inventory App "</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

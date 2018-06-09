@@ -1,10 +1,22 @@
 package com.example.android.cookiejar;
 
+/* Nav drawer code From https://developer.android.com/training/
+ * implementing-navigation/nav-drawer#top_of_page
+ * and https://medium.com/@ssaurel/implement-a-navigation-
+ * drawer-with-a-toolbar-on-android-m-68162f13d220
+*/
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +32,9 @@ import com.example.android.cookiejar.data.CookieJarDbHelper;
 
 public class CookieCatalog extends AppCompatActivity {
 
+    //Declaring a variable that we need to enable a nav drawer
+    private DrawerLayout drawerLayout;
+
     //Declaring an instance of the class CookieJarDbHelper so that we can enable CRUD actions
     private CookieJarDbHelper cookieJarDbHelper;
 
@@ -27,6 +42,14 @@ public class CookieCatalog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cookie_catalog);
+
+        //Attaching the variable to the nav drawer resource
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        //Setting up the nav drawer and toolbar
+        configureNavigationDrawer();
+        configureToolbar();
+
 
         //Setup FAB to open EditCookie
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -41,7 +64,63 @@ public class CookieCatalog extends AppCompatActivity {
         //Instantiating the DB Helper variable
         cookieJarDbHelper = new CookieJarDbHelper(this);
         displayDatabaseInfo();
+
     }
+
+    /* Setting the toolbar as the action bar and the hamburger menu icon (icon_menu.xml)
+        as the nav drawer button */
+    private void configureToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setHomeAsUpIndicator(R.drawable.icon_menu);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    //Setting up the nav drawer and giving each option an action
+    private void configureNavigationDrawer() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        drawerLayout.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+                        switch (menuItem.getItemId()) {
+
+                            //Respond to a click on the menu options
+                            case R.id.nav_camera:
+                                Toast.makeText(CookieCatalog.this, "Go to shop/All inventory coming soon",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+
+                            case R.id.nav_gallery:
+                                Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
+                                startActivity(intent);
+                                return true;
+
+                            case R.id.nav_share:
+                                Toast.makeText(CookieCatalog.this, "Settings coming soon",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+
+                            case R.id.nav_send:
+                                Toast.makeText(CookieCatalog.this, "About coming soon",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+                        }
+
+                        return true;
+                    }
+                });
+    }
+
 
     //This method will refresh the CookieCatalog with the info about the new cookie after it was inserted
     @Override
@@ -200,6 +279,12 @@ public class CookieCatalog extends AppCompatActivity {
             case R.id.action_delete_all_entries:
                 Toast.makeText(this, "Coming soon - Delete all entries", Toast.LENGTH_SHORT).show();
                 return true;
+
+            //Open the drawer when the hamburger menu icon is tapped
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

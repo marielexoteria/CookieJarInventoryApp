@@ -1,10 +1,18 @@
 package com.example.android.cookiejar;
 
+/* Toolbar implementation code taken from https://medium.com/@ssaurel/implement-a-navigation-
+ drawer-with-a-toolbar-on-android-m-68162f13d220 */
+
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -53,6 +61,10 @@ public class EditCookie extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cookie);
 
+        /* Setting up the toolbar with the icons to save, go back to the previous activity and
+        the overflow menu */
+        configureToolbar();
+
         //Find all relevant views that we will need to read user input from
         cookieNameEditText = (EditText) findViewById(R.id.edit_cookie_name);
         cookiePriceEditText = (EditText) findViewById(R.id.edit_cookie_price);
@@ -63,6 +75,17 @@ public class EditCookie extends AppCompatActivity {
 
         setupSpinner();
     }
+
+    /* Setting the toolbar as the action bar and the UP navigation icon (icon_arrow_back.xml)
+        as the nav drawer button */
+    private void configureToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setHomeAsUpIndicator(R.drawable.icon_arrow_back);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+    }
+
 
     /**
      * Setup the dropdown spinner that allows the user to select the type of cookie
@@ -172,7 +195,7 @@ public class EditCookie extends AppCompatActivity {
 
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            
+
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
 

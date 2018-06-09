@@ -4,6 +4,7 @@
     <dimen name="margin_horizontal">16dp</dimen>
     <dimen name="margin_vertical">16dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <dimen name="margin_top_from_actionbar">50dp</dimen>
 
     <!-- Values used in activity_edit_cookie.xml -->
     <dimen name="padding_left_input_text">4dp</dimen>
@@ -12,4 +13,9 @@
 
     <!-- Values used in styles.xml -->
     <dimen name="padding_styles">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>
