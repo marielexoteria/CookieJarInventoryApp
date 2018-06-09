@@ -15,7 +15,7 @@
     <string name="cookie_price">For ex. 12.50</string>
     <string name="cookie_quantity">1</string>
     <string name="cookie_supplier_name">For ex. Acme, Inc.</string>
-    <string name="cookie_supplier_phone_nr">For ex: 0046 123 456 78 90</string>
+    <string name="cookie_supplier_phone_nr">For ex: 00461234567890</string>
 
     <!-- Miscellaneous -->
     <string name="currency">SEK</string>
@@ -31,6 +31,6 @@
 
     <!-- Temp strings used in CookieCatalog.java. Will most likely
     be deleted when the app is finished -->
-    <string name="db_row_info">Number of rows in the cookie database table:\u0020</string>
+    <string name="db_row_info">Number of cookies in the cookie jar:\u0020</string>
 
 </resources>

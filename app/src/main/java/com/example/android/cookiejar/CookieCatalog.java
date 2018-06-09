@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
-
 import com.example.android.cookiejar.data.CookieJarDbHelper;
 
 public class CookieCatalog extends AppCompatActivity {
@@ -30,7 +28,7 @@ public class CookieCatalog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cookie_catalog);
 
-        // Setup FAB to open EditCookie
+        //Setup FAB to open EditCookie
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,29 +52,104 @@ public class CookieCatalog extends AppCompatActivity {
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
+     * the cookies table.
      */
     private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
+        //To access our database, we instantiate our subclass of SQLiteOpenHelper
+        //and pass the context, which is the current activity
         CookieJarDbHelper tempDbHelper = new CookieJarDbHelper(this);
 
         // Create and/or open a database to read from it
         SQLiteDatabase db = tempDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM pets"
-        // to get a Cursor that contains all rows from the pets table.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + CookieEntry.TABLE_NAME, null);
+        //Perform a SQL query "SELECT * FROM cookies" using Query() rather than db.rawQuery()
+
+        //First we make a projection of the fields
+        String[] cookieProjection = {
+                CookieEntry._ID,
+                CookieEntry.COOKIE_NAME,
+                CookieEntry.COOKIE_PRICE,
+                CookieEntry.COOKIE_QUANTITY,
+                CookieEntry.COOKIE_TYPE,
+                CookieEntry.COOKIE_SUPPLIER_NAME,
+                CookieEntry.COOKIE_SUPPLIER_PHONE_NR
+        };
+
+        //Passing the projection into the query method by means of a cursor,
+        //which will consist of the result from the query
+        Cursor cursor = db.query(
+                CookieEntry.TABLE_NAME,
+                cookieProjection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        TextView displayView = (TextView) findViewById(R.id.text_view_cookie);
+
         try {
-            // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
-            TextView displayView = (TextView) findViewById(R.id.text_view_cookie);
-            displayView.setText(R.string.db_row_info + cursor.getCount());
+            //Creating a header in the TextView that looks like this:
+            //Number of cookies in the cookie jar: NUMBER
+            //_id - name - price - quantity - type - supplier name - supplier phone number
+
+            // In the while loop below, iterate through the rows of the cursor and display
+            // the information from each column in this order.
+            displayView.setText(getString(R.string.db_row_info) + cursor.getCount() + "\n\n");
+            displayView.append(CookieEntry._ID + " - " +
+                    CookieEntry.COOKIE_NAME + " - " +
+                    CookieEntry.COOKIE_PRICE + " - " +
+                    CookieEntry.COOKIE_QUANTITY + " - " +
+                    CookieEntry.COOKIE_TYPE + " - " +
+                    CookieEntry.COOKIE_SUPPLIER_NAME + " - " +
+                    CookieEntry.COOKIE_SUPPLIER_PHONE_NR + "\n"
+            );
+
+            // Figure out the index of each column
+            int idColumnIndex = cursor.getColumnIndex(CookieEntry._ID);
+            int nameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_QUANTITY);
+            int typeColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_TYPE);
+            int supplierNameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_NAME);
+            int supplierPhoneNrColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_PHONE_NR);
+
+            //Looping through all the returned rows in the cursor
+            while (cursor.moveToNext()) {
+                //Use that index to extract the String/Double/int value of the word
+                //at the current row the cursor is on.
+                int currentID = cursor.getInt(idColumnIndex);
+                String currentName = cursor.getString(nameColumnIndex);
+                Double currentPrice = cursor.getDouble(priceColumnIndex);
+                int currentQuantity = cursor.getInt(quantityColumnIndex);
+                int currentType = cursor.getInt(typeColumnIndex);
+                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
+                int currentSupplierPhoneNr = cursor.getInt(supplierPhoneNrColumnIndex);
+
+
+                //Changing the type from 1/2 to Sweet/Savoury
+                String type = "";
+                switch(currentType) {
+                    case 1:
+                        type = "Sweet";
+                        break;
+                    case 2:
+                        type = "Savoury";
+                        break;
+                }
+
+
+                //Displaying the values from each column of the current row in the cursor in the TextView
+                displayView.append(("\n" + currentID + " - " +
+                        currentName + " - " + currentPrice + " - " + currentQuantity + " - "
+                        + type + " - " + currentSupplierName + " - " + currentSupplierPhoneNr));
+            }
         } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
+            //Closing the cursor when done reading it to release resources and make it invalid
             cursor.close();
         }
+
     }
 
     private void insertCookie() {
@@ -97,15 +170,15 @@ public class CookieCatalog extends AppCompatActivity {
         //Inserting the data
         long newRowId = db.insert(CookieEntry.TABLE_NAME, null, cookieValues);
 
-        //Checking out whether the insert command was successfull or not
+        //Checking out whether the insert command was successful or not
         Log.i("CookieCatalog", "New row ID = " + newRowId);
     }
 
     //Creating the overflow menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_cookie_catalog.xml file.
-        // This adds menu items to the app bar.
+
+        //Adding the menu items from res/menu/menu_cookie_catalog.xml to the app bar
         getMenuInflater().inflate(R.menu.menu_cookie_catalog, menu);
         return true;
     }
@@ -113,18 +186,18 @@ public class CookieCatalog extends AppCompatActivity {
     //Enabling the actions to be done in the overflow menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
+
+        //If the user clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
 
-            // Respond to a click on the "Insert dummy data" menu option
+            //Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                //Toast.makeText(this, "Coming soon - Insert dummy data", Toast.LENGTH_SHORT).show();
                 insertCookie();
                 displayDatabaseInfo();
                 return true;
-            // Respond to a click on the "Delete all entries" menu option
-            case R.id.action_delete_all_entries:
 
+            //Respond to a click on the "Delete all entries" menu option
+            case R.id.action_delete_all_entries:
                 Toast.makeText(this, "Coming soon - Delete all entries", Toast.LENGTH_SHORT).show();
                 return true;
         }

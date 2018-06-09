@@ -6,13 +6,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 tools:context=".CookieCatalog">
 
-<item
-    android:id="@+id/action_insert_dummy_data"
-    android:title="@string/insert_dummy_data"
-    app:showAsAction="never" />
+    <item
+        android:id="@+id/action_insert_dummy_data"
+        android:title="@string/insert_dummy_data"
+        app:showAsAction="never" />
 
-<item
-    android:id="@+id/action_delete_all_entries"
-    android:title="@string/delete_all_entries"
-    app:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete_all_entries"
+        android:title="@string/delete_all_entries"
+        app:showAsAction="never" />
+
 </menu>

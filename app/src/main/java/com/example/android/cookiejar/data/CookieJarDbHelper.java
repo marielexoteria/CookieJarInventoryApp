@@ -30,7 +30,7 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
                 + CookieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CookieEntry.COOKIE_NAME + " TEXT NOT NULL, "
                 + CookieEntry.COOKIE_PRICE + " REAL NOT NULL,"
-                + CookieEntry.COOKIE_QUANTITY + "INTEGER NOT NULL, "
+                + CookieEntry.COOKIE_QUANTITY + " INTEGER NOT NULL, "
                 + CookieEntry.COOKIE_TYPE + " INTEGER NOT NULL DEFAULT 1, "
                 + CookieEntry.COOKIE_SUPPLIER_NAME + " TEXT NOT NULL, "
                 + CookieEntry.COOKIE_SUPPLIER_PHONE_NR + " INTEGER NOT NULL)";
