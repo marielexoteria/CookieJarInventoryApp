@@ -129,6 +129,7 @@
                 android:hint="@string/cookie_supplier_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapWords"
                 style="@style/EditorFieldStyle"/>
 
             <!-- Supplier phone number field -->

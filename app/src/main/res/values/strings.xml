@@ -6,13 +6,16 @@
     <string name="cookie_info">Cookie info</string>
     <string name="cookie_type">Type</string>
     <string name="cookie_supplier">Supplier info</string>
+    <!-- Dropdown menu options -->
+    <string name="cookie_type_sweet">Sweet</string>
+    <string name="cookie_type_savoury">Savoury</string>
 
     <!-- Hints -->
     <string name="cookie_name">For ex. Wafer ABC</string>
     <string name="cookie_price">For ex. 12.50</string>
     <string name="cookie_quantity">1</string>
     <string name="cookie_supplier_name">For ex. Acme, Inc.</string>
-    <string name="cookie_supplier_phone_nr">For ex. 0045 1234 5678</string>
+    <string name="cookie_supplier_phone_nr">For ex: 0046 123 456 78 90</string>
 
     <!-- Miscellaneous -->
     <string name="currency">SEK</string>
@@ -25,5 +28,9 @@
     <!-- Strings used in menu_edit_cookie.xml -->
     <string name="save_cookie">Save cookie</string>
     <string name="delete_cookie">Delete cookie</string>
+
+    <!-- Temp strings used in CookieCatalog.java. Will most likely
+    be deleted when the app is finished -->
+    <string name="db_row_info">Number of rows in the cookie database table:\u0020</string>
 
 </resources>

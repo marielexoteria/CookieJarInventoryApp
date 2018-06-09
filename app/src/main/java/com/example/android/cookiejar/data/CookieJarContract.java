@@ -20,7 +20,7 @@ public final class CookieJarContract {
 
         //Possible values for the cookie type
         public static final int COOKIE_TYPE_SWEET = 1;
-        public static final int COOKIE_TYPE_SALTY = 2;
+        public static final int COOKIE_TYPE_SAVOURY = 2;
 
     }
 }

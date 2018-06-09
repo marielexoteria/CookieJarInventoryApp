@@ -18,7 +18,6 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
     //Creating the constructor
     public CookieJarDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
     }
 
     //Add the field for the picture later

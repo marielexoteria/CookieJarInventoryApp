@@ -1,10 +1,12 @@
 package com.example.android.cookiejar;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,9 @@ import com.example.android.cookiejar.data.CookieJarDbHelper;
 
 public class CookieCatalog extends AppCompatActivity {
 
+    //Declaring an instance of the class CookieJarDbHelper so that we can enable CRUD actions
+    private CookieJarDbHelper cookieJarDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,10 @@ public class CookieCatalog extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Instantiating the DB Helper variable
+        cookieJarDbHelper = new CookieJarDbHelper(this);
+        displayDatabaseInfo();
     }
 
     //This method will refresh the CookieCatalog with the info about the new cookie after it was inserted
@@ -62,12 +71,34 @@ public class CookieCatalog extends AppCompatActivity {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
             // pets table in the database).
             TextView displayView = (TextView) findViewById(R.id.text_view_cookie);
-            displayView.setText("Number of rows in the cookie database table: " + cursor.getCount());
+            displayView.setText(R.string.db_row_info + cursor.getCount());
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
             cursor.close();
         }
+    }
+
+    private void insertCookie() {
+        //Open the db in write mode
+        SQLiteDatabase db = cookieJarDbHelper.getWritableDatabase();
+
+        //Creating a ContentValues object to insert data to the db
+        ContentValues cookieValues = new ContentValues();
+
+        //Populating the ContentValues object
+        cookieValues.put(CookieEntry.COOKIE_NAME, "Ballerina");
+        cookieValues.put(CookieEntry.COOKIE_PRICE, "14.50");
+        cookieValues.put(CookieEntry.COOKIE_QUANTITY, "5");
+        cookieValues.put(CookieEntry.COOKIE_TYPE, CookieEntry.COOKIE_TYPE_SWEET);
+        cookieValues.put(CookieEntry.COOKIE_SUPPLIER_NAME, "Fazer AB");
+        cookieValues.put(CookieEntry.COOKIE_SUPPLIER_PHONE_NR, "12345678");
+
+        //Inserting the data
+        long newRowId = db.insert(CookieEntry.TABLE_NAME, null, cookieValues);
+
+        //Checking out whether the insert command was successfull or not
+        Log.i("CookieCatalog", "New row ID = " + newRowId);
     }
 
     //Creating the overflow menu
@@ -87,7 +118,9 @@ public class CookieCatalog extends AppCompatActivity {
 
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                Toast.makeText(this, "Coming soon - Insert dummy data", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Coming soon - Insert dummy data", Toast.LENGTH_SHORT).show();
+                insertCookie();
+                displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
