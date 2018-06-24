@@ -14,6 +14,7 @@
         android:id="@+id/cookie_main_activity"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/backgroundColorWithTransparency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".CookieCatalog">
@@ -23,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_horizontal"
-            android:layout_marginTop="@dimen/margin_top_from_actionbar"/>
+            android:layout_marginTop="@dimen/margin_top_from_actionbar"
+            android:textColor="@color/textColor"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -32,7 +34,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/placeholder_fab"/>
+            android:src="@drawable/fab"/>
 
         <include layout="@layout/toolbar" />
 

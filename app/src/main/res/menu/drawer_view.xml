@@ -13,26 +13,21 @@ drawer-with-a-toolbar-on-android-m-68162f13d220
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_catalog"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Go to shop/All inventory" />
+            android:title="@string/menu_item_1"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Add Inventory" />
+            android:id="@+id/nav_add_cookie"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_item_2" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_item_3" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_item_4" />
     </group>
-
-    <item android:title="Settings">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Settings" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="About" />
-        </menu>
-    </item>
 
 </menu>

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/action_save"
         android:title="@string/save_cookie"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/icon_done"
         app:showAsAction="always" />
 
     <item

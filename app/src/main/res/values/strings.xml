@@ -3,23 +3,35 @@
 
     <!-- Strings used in activity_edit_cookie.xml -->
     <!-- Labels -->
+
     <string name="cookie_info">Cookie info</string>
-    <string name="cookie_type">Type</string>
-    <string name="cookie_supplier">Supplier info</string>
+    <string name="cookie_name">Name:</string>
+    <string name="cookie_description">Description:</string>
+    <string name="cookie_price">Price per unit:</string>
+    <string name="cookie_quantity">Quantity:</string>
+    <string name="cookie_type">Type of cookie:</string>
+    <string name="supplier_info">Supplier info</string>
+    <string name="supplier_name">Name:</string>
+    <string name="supplier_phone_nr">Phone number:</string>
+    <string name="supplier_email">E-mail:</string>
+    <string name="button_fewer_cookies">-</string>
+    <string name="button_more_cookies">+</string>
+
     <!-- Dropdown menu options -->
     <string name="cookie_type_sweet">Sweet</string>
     <string name="cookie_type_savoury">Savoury</string>
 
     <!-- Hints -->
-    <string name="cookie_name">For ex. Wafer ABC</string>
-    <string name="cookie_price">For ex. 12.50</string>
-    <string name="cookie_quantity">1</string>
-    <string name="cookie_supplier_name">For ex. Acme, Inc.</string>
-    <string name="cookie_supplier_phone_nr">For ex: 00461234567890</string>
+    <string name="cookie_name_hint">For ex. Wafer ABC</string>
+    <string name="cookie_description_hint">Delicious cookie to have with your afternoon coffee</string>
+    <string name="cookie_price_hint">For ex. 12.50</string>
+    <string name="cookie_quantity_hint">1</string>
+    <string name="supplier_name_hint">For ex. Acme, Inc.</string>
+    <string name="supplier_phone_nr_hint">For ex: 00461234567890</string>
+    <string name="supplier_email_hint">For ex: mail@mail.com</string>
 
     <!-- Miscellaneous -->
     <string name="currency">SEK</string>
-
 
     <!-- Strings used in menu_cookie_catalog.xml -->
     <string name="insert_dummy_data">Insert dummy data</string>
@@ -32,12 +44,29 @@
     <!-- Temp strings used in CookieCatalog.java. Will most likely
     be deleted when the app is finished -->
     <string name="db_row_info">Number of cookies in the cookie jar:\u0020</string>
-    <string name="title_activity_nav_drawer">"Cookie Jar Inventory App "</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_activity_nav_drawer">"Cookie Jar Inventory App"</string>
+
+    <!-- Strings used in the nav drawer -->
+    <string name="nav_drawer_title">Cookie Jar Inventory App</string>
+    <string name="menu_item_1">Cookie catalog</string>
+    <string name="menu_item_2">Add a cookie</string>
+    <string name="menu_item_3">Settings</string>
+    <string name="menu_item_4">About</string>
+
+    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_cookie_successful">New cookie added:\u0020</string>
+
+    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_cookie_failed">Cannot add cookie:\u0020</string>
+
+
+    <!-- Labels for error messages in case of empty fields (add a cookie/edit cookie) -->
+    <string name="cookie_name_empty">The cookie needs a name. Please enter one and try again :)</string>
+    <string name="cookie_description_empty">The cookie needs a description. Please enter one and try again :)</string>
+    <string name="cookie_price_empty">The cookie needs a price. Please enter one and try again :)</string>
+    <string name="cookie_quantity_empty">The cookie needs a quantity in stock. Please enter one and try again :)</string>
+    <string name="supplier_name_empty">The cookie needs a supplier name. Please enter one and try again :)</string>
+    <string name="supplier_phone_empty">The cookie needs a supplier phone number. Please enter one and try again :)</string>
+    <string name="supplier_email_empty">The cookie needs a supplier e-mail. Please enter one and try again :)</string>
 
 </resources>

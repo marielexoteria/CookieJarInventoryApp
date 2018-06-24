@@ -9,8 +9,10 @@
 
     <!-- Layout for the editor -->
     <LinearLayout
+        android:id="@+id/edit_cookie"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/backgroundColorWithTransparency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -19,6 +21,10 @@
         <include layout="@layout/toolbar" />
 
         <!-- Cookie info category -->
+        <TextView
+            android:text="@string/cookie_info"
+            style="@style/SectionLabelStyle"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,14 +33,14 @@
 
             <!-- Label -->
             <TextView
-                android:text="@string/cookie_info"
+                android:text="@string/cookie_name"
                 style="@style/CategoryStyle"/>
 
             <!-- Input fields -->
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:paddingLeft="@dimen/padding_left_input_text"
                 android:orientation="vertical">
 
@@ -46,8 +52,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/cookie_name"
-                    android:inputType="textCapWords"
+                    android:inputType="textCapSentences"
                     style="@style/EditorFieldStyle"/>
+
+                <!-- Cookie description field -->
+                <EditText
+                    android:id="@+id/edit_cookie_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cookie_description_hint"
+                    android:inputType="textCapSentences|textMultiLine"
+                    style="@style/EditorFieldStyle"
+                    android:gravity="top"/>
 
                 <!-- Cookie price field -->
                 <RelativeLayout
@@ -71,14 +87,42 @@
                 </RelativeLayout>
 
                 <!-- Cookie quantity field -->
-                <!-- Add + and - buttons later -->
-                <EditText
-                    android:id="@+id/edit_cookie_quantity"
+
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/cookie_quantity"
-                    android:inputType="number"
-                    style="@style/EditorFieldStyle"/>
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="@string/button_fewer_cookies"
+                        android:background="@color/colorAccent"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_button_labels"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/margin_buttons"/>
+
+                    <EditText
+                        android:id="@+id/edit_cookie_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/cookie_quantity"
+                        android:inputType="number"
+                        style="@style/EditorFieldStyle"/>
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="@string/button_more_cookies"
+                        android:background="@color/colorAccent"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_button_labels"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/margin_buttons"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -123,7 +167,7 @@
 
             <!-- Label -->
             <TextView
-                android:text="@string/cookie_supplier"
+                android:text="@string/supplier_info"
                 style="@style/CategoryStyle" />
 
             <!-- Input fields -->
@@ -137,7 +181,7 @@
                 <!-- Supplier name field -->
                 <EditText
                     android:id="@+id/edit_cookie_supplier_name"
-                    android:hint="@string/cookie_supplier_name"
+                    android:hint="@string/supplier_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
@@ -146,10 +190,19 @@
                 <!-- Supplier phone number field -->
                 <EditText
                     android:id="@+id/edit_cookie_supplier_phone"
-                    android:hint="@string/cookie_supplier_phone_nr"
+                    android:hint="@string/supplier_phone_nr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    style="@style/EditorFieldStyle"/>
+
+                <!-- Supplier phone e-mail field -->
+                <EditText
+                    android:id="@+id/edit_cookie_supplier_email"
+                    android:hint="@string/supplier_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
                     style="@style/EditorFieldStyle"/>
 
             </LinearLayout>

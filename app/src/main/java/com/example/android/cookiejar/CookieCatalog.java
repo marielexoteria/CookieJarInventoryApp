@@ -10,8 +10,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -28,15 +28,11 @@ import android.support.design.widget.FloatingActionButton;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
-import com.example.android.cookiejar.data.CookieJarDbHelper;
 
 public class CookieCatalog extends AppCompatActivity {
 
     //Declaring a variable that we need to enable a nav drawer
     private DrawerLayout drawerLayout;
-
-    //Declaring an instance of the class CookieJarDbHelper so that we can enable CRUD actions
-    private CookieJarDbHelper cookieJarDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,6 @@ public class CookieCatalog extends AppCompatActivity {
         configureNavigationDrawer();
         configureToolbar();
 
-
         //Setup FAB to open EditCookie
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +56,6 @@ public class CookieCatalog extends AppCompatActivity {
             }
         });
 
-        //Instantiating the DB Helper variable
-        cookieJarDbHelper = new CookieJarDbHelper(this);
         displayDatabaseInfo();
 
     }
@@ -95,24 +88,28 @@ public class CookieCatalog extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             //Respond to a click on the menu options
-                            case R.id.nav_camera:
-                                Toast.makeText(CookieCatalog.this, "Go to shop/All inventory coming soon",
-                                        Toast.LENGTH_SHORT).show();
+                            case R.id.nav_catalog:
+                                /*Toast.makeText(CookieCatalog.this, "Go to shop/All inventory coming soon",
+                                        Toast.LENGTH_SHORT).show();*/
+                                Intent intentCatalog = new Intent(CookieCatalog.this, CookieCatalog.class);
+                                startActivity(intentCatalog);
                                 return true;
 
-                            case R.id.nav_gallery:
-                                Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
-                                startActivity(intent);
+                            case R.id.nav_add_cookie:
+                                Intent intentAddCookie = new Intent(CookieCatalog.this, EditCookie.class);
+                                startActivity(intentAddCookie);
                                 return true;
 
-                            case R.id.nav_share:
+                            case R.id.nav_settings:
                                 Toast.makeText(CookieCatalog.this, "Settings coming soon",
                                         Toast.LENGTH_SHORT).show();
                                 return true;
 
-                            case R.id.nav_send:
+                            case R.id.nav_about:
                                 Toast.makeText(CookieCatalog.this, "About coming soon",
                                         Toast.LENGTH_SHORT).show();
+                                /*Intent intentAbout = new Intent(CookieCatalog.this, About.class);
+                                startActivity(intentAbout);*/
                                 return true;
                         }
 
@@ -134,33 +131,26 @@ public class CookieCatalog extends AppCompatActivity {
      * the cookies table.
      */
     private void displayDatabaseInfo() {
-        //To access our database, we instantiate our subclass of SQLiteOpenHelper
-        //and pass the context, which is the current activity
-        CookieJarDbHelper tempDbHelper = new CookieJarDbHelper(this);
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = tempDbHelper.getReadableDatabase();
-
-        //Perform a SQL query "SELECT * FROM cookies" using Query() rather than db.rawQuery()
-
-        //First we make a projection of the fields
+        //Define a projection that specifies the columns that will be used
+        //WILL NEED TO REMOVE THE SUPPLIER INFO HERE SINCE IT'S NOT NEEDED IN activity_cookie_catalog.xml
+        //THEY WILL BE NEEDED IN THE COOKIE DETAILS PAGE THAT I HAVE YET TO MAKE
         String[] cookieProjection = {
                 CookieEntry._ID,
                 CookieEntry.COOKIE_NAME,
+                CookieEntry.COOKIE_DESCRIPTION,
                 CookieEntry.COOKIE_PRICE,
                 CookieEntry.COOKIE_QUANTITY,
                 CookieEntry.COOKIE_TYPE,
                 CookieEntry.COOKIE_SUPPLIER_NAME,
-                CookieEntry.COOKIE_SUPPLIER_PHONE_NR
+                CookieEntry.COOKIE_SUPPLIER_PHONE_NR,
+                CookieEntry.COOKIE_SUPPLIER_EMAIL
         };
 
-        //Passing the projection into the query method by means of a cursor,
-        //which will consist of the result from the query
-        Cursor cursor = db.query(
-                CookieEntry.TABLE_NAME,
+        //Perform a query on the provider using the ContentResolver.
+        //Use the @Link {CookieEntry#CONTENT_URI} to access the cookie data
+        Cursor cursor = getContentResolver().query(
+                CookieEntry.CONTENT_URI,
                 cookieProjection,
-                null,
-                null,
                 null,
                 null,
                 null
@@ -171,28 +161,33 @@ public class CookieCatalog extends AppCompatActivity {
         try {
             //Creating a header in the TextView that looks like this:
             //Number of cookies in the cookie jar: NUMBER
-            //_id - name - price - quantity - type - supplier name - supplier phone number
+            //_id - name - price - quantity - type - supplier name - supplier phone number -
+            //supplier e-mail
 
             // In the while loop below, iterate through the rows of the cursor and display
             // the information from each column in this order.
             displayView.setText(getString(R.string.db_row_info) + cursor.getCount() + "\n\n");
             displayView.append(CookieEntry._ID + " - " +
                     CookieEntry.COOKIE_NAME + " - " +
+                    CookieEntry.COOKIE_DESCRIPTION + " - " +
                     CookieEntry.COOKIE_PRICE + " - " +
                     CookieEntry.COOKIE_QUANTITY + " - " +
                     CookieEntry.COOKIE_TYPE + " - " +
                     CookieEntry.COOKIE_SUPPLIER_NAME + " - " +
-                    CookieEntry.COOKIE_SUPPLIER_PHONE_NR + "\n"
+                    CookieEntry.COOKIE_SUPPLIER_PHONE_NR + " - " +
+                    CookieEntry.COOKIE_SUPPLIER_EMAIL + "\n"
             );
 
             // Figure out the index of each column
             int idColumnIndex = cursor.getColumnIndex(CookieEntry._ID);
             int nameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_NAME);
+            int descriptionColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_DESCRIPTION);
             int priceColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_QUANTITY);
             int typeColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_TYPE);
             int supplierNameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_NAME);
             int supplierPhoneNrColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_PHONE_NR);
+            int supplierEmailColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_EMAIL);
 
             //Looping through all the returned rows in the cursor
             while (cursor.moveToNext()) {
@@ -200,11 +195,13 @@ public class CookieCatalog extends AppCompatActivity {
                 //at the current row the cursor is on.
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(nameColumnIndex);
+                String currentDescription = cursor.getString(descriptionColumnIndex);
                 Double currentPrice = cursor.getDouble(priceColumnIndex);
                 int currentQuantity = cursor.getInt(quantityColumnIndex);
                 int currentType = cursor.getInt(typeColumnIndex);
                 String currentSupplierName = cursor.getString(supplierNameColumnIndex);
                 int currentSupplierPhoneNr = cursor.getInt(supplierPhoneNrColumnIndex);
+                String currentSupplierEmail = cursor.getString(supplierEmailColumnIndex);
 
 
                 //Changing the type from 1/2 to Sweet/Savoury
@@ -220,9 +217,9 @@ public class CookieCatalog extends AppCompatActivity {
 
 
                 //Displaying the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentName + " - " + currentPrice + " - " + currentQuantity + " - "
-                        + type + " - " + currentSupplierName + " - " + currentSupplierPhoneNr));
+                displayView.append(("\n" + currentID + ") " +
+                        currentName + " - " + currentDescription + " - " + currentPrice + " - " + currentQuantity + " - "
+                        + type + " - " + currentSupplierName + " - " + currentSupplierPhoneNr + " - " + currentSupplierEmail));
             }
         } finally {
             //Closing the cursor when done reading it to release resources and make it invalid
@@ -231,26 +228,27 @@ public class CookieCatalog extends AppCompatActivity {
 
     }
 
+    //Helper method to insert hard-coded data into the db
     private void insertCookie() {
-        //Open the db in write mode
-        SQLiteDatabase db = cookieJarDbHelper.getWritableDatabase();
-
         //Creating a ContentValues object to insert data to the db
         ContentValues cookieValues = new ContentValues();
 
         //Populating the ContentValues object
         cookieValues.put(CookieEntry.COOKIE_NAME, "Ballerina");
+        cookieValues.put(CookieEntry.COOKIE_DESCRIPTION, "Delicious cookie to have with your afternoon coffee");
         cookieValues.put(CookieEntry.COOKIE_PRICE, "14.50");
         cookieValues.put(CookieEntry.COOKIE_QUANTITY, "5");
         cookieValues.put(CookieEntry.COOKIE_TYPE, CookieEntry.COOKIE_TYPE_SWEET);
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_NAME, "Fazer AB");
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_PHONE_NR, "12345678");
+        cookieValues.put(CookieEntry.COOKIE_SUPPLIER_EMAIL, "yo@yo.com");
 
-        //Inserting the data
-        long newRowId = db.insert(CookieEntry.TABLE_NAME, null, cookieValues);
+        // Insert a new row for Toto into the provider using the ContentResolver.
+        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
+        // into the pets database table.
+        // Receive the new content URI that will allow us to access Toto's data in the future.
+        Uri newUri = getContentResolver().insert(CookieEntry.CONTENT_URI, cookieValues);
 
-        //Checking out whether the insert command was successful or not
-        Log.i("CookieCatalog", "New row ID = " + newRowId);
     }
 
     //Creating the overflow menu

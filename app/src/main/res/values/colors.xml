@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Base theme colors -->
+    <color name="colorPrimary">#D7CCC8</color>
+    <color name="colorPrimaryDark">#A69B97</color>
+    <color name="colorAccent">#482B1C</color>
+    <color name="backgroundColorWithTransparency">#80D7CCC8</color>
+    <!-- Primary color with 50% opacity, see link below -->
+    <color name="textColor">#482B1C</color>
+    <color name="textColorPlaceholderText">#8A000000</color>
+    <!-- Color used in "Add a cookie", #000 with 54% transparency
+    from: https://stackoverflow.com/questions/11285961/how-to-make-a-background-20-transparent-on-android-->
 
     <!-- Trying out the nav drawer styling -->
+    <!--<color name="primary">#D7CCC8</color>
+    <color name="primary_dark">#A69B97</color>
+    <color name="primary_light">#E1BEE7</color>
+    <color name="accent">#482B1C</color>
+    <color name="primary_text">#482B1C</color>
+    <color name="secondary_text">#f00</color>
+    <color name="icons">#D7CCC8</color>
+    <color name="divider">#BDBDBD</color>-->
+
+    <!--
     <color name="primary">#9C27B0</color>
     <color name="primary_dark">#7B1FA2</color>
     <color name="primary_light">#E1BEE7</color>
@@ -13,4 +30,5 @@
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+    -->
 </resources>

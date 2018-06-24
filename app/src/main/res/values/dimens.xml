@@ -3,19 +3,21 @@
     <!-- Values used in activity_cookie_catalog.xml -->
     <dimen name="margin_horizontal">16dp</dimen>
     <dimen name="margin_vertical">16dp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_top_from_actionbar">50dp</dimen>
+    <dimen name="section_label_size">16sp</dimen>
 
     <!-- Values used in activity_edit_cookie.xml -->
     <dimen name="padding_left_input_text">4dp</dimen>
     <dimen name="padding_right_spinner">16dp</dimen>
     <dimen name="layout_height_spinner">48dp</dimen>
+    <dimen name="margin_buttons">6dp</dimen>
+    <dimen name="text_size_button_labels">20sp</dimen>
 
     <!-- Values used in styles.xml -->
     <dimen name="padding_styles">16dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
+
+    <!-- Values use din nav_header.xml -->
+    <dimen name="nav_header_padding">16dp</dimen>
+    <dimen name="nav_header_height">192dp</dimen>
 </resources>

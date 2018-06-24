@@ -29,11 +29,13 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_COOKIE_TABLE = "CREATE TABLE " + CookieEntry.TABLE_NAME + "("
                 + CookieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CookieEntry.COOKIE_NAME + " TEXT NOT NULL, "
+                + CookieEntry.COOKIE_DESCRIPTION + " TEXT NOT NULL, "
                 + CookieEntry.COOKIE_PRICE + " REAL NOT NULL,"
                 + CookieEntry.COOKIE_QUANTITY + " INTEGER NOT NULL, "
                 + CookieEntry.COOKIE_TYPE + " INTEGER NOT NULL DEFAULT 1, "
                 + CookieEntry.COOKIE_SUPPLIER_NAME + " TEXT NOT NULL, "
-                + CookieEntry.COOKIE_SUPPLIER_PHONE_NR + " INTEGER NOT NULL)";
+                + CookieEntry.COOKIE_SUPPLIER_PHONE_NR+ " INTEGER NOT NULL, "
+                + CookieEntry.COOKIE_SUPPLIER_EMAIL + " TEXT NOT NULL)";
 
         //Create the table
         cookieDB.execSQL(SQL_CREATE_COOKIE_TABLE);
