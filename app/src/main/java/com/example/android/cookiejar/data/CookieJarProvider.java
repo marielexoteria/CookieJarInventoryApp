@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.android.cookiejar.R;
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 
+import static android.provider.Settings.Global.getString;
+
 /**
  * {@link ContentProvider} for the Cookie Jar Inventory app.
  */
@@ -131,7 +133,7 @@ public class CookieJarProvider extends ContentProvider {
         String cookieName = contentValues.getAsString(CookieEntry.COOKIE_NAME);
         if (cookieName == null || cookieName.isEmpty() ) {
             throw new IllegalArgumentException("The cookie needs a name. Please enter one and try again :)");
-            //Toast.makeText(this, getString(R.string.cookie_name_empty), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, R.string.cookie_name_empty, Toast.LENGTH_SHORT).show();
         }
 
         String cookieDescription = contentValues.getAsString(CookieEntry.COOKIE_DESCRIPTION);

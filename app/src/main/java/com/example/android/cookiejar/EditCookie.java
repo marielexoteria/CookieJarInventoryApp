@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 import com.example.android.cookiejar.data.CookieJarDbHelper;
 
+import static com.example.android.cookiejar.data.CookieJarContract.CookieEntry.COOKIE_TYPE_SWEET;
+
 /**
  * Allows user to add and edit cookies.
  */
@@ -123,7 +125,7 @@ public class EditCookie extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.cookie_type_sweet))) {
-                        cookieType = CookieEntry.COOKIE_TYPE_SWEET;
+                        cookieType = COOKIE_TYPE_SWEET;
                     } else {
                         cookieType = CookieEntry.COOKIE_TYPE_SAVOURY;
                     }
@@ -148,29 +150,32 @@ public class EditCookie extends AppCompatActivity {
         String nameString = cookieNameEditText.getText().toString().trim();
         String descriptionString = cookieDescriptionEditText.getText().toString().trim();
         String priceString = cookiePriceEditText.getText().toString().trim();
-        String quantityString = cookieQuantityEditText.getText().toString();
+        quantityString = cookieQuantityEditText.getText().toString();
         String typeString = cookieTypeSpinner.toString();
         String supplierNameString = cookieSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = cookieSupplierPhoneNrEditText.getText().toString().trim();
         String supplierEmailString = cookieSupplierEmailEditText.getText().toString().trim();
 
         //Declaring variables that will be needed to insert data to the db
-        Double price;
-        int phoneNumber;
+        Double price = 0.00;
+        int phoneNumber = 0;
 
 
         //Beginning: adding data validation
         if (nameString == null || nameString.isEmpty() ) {
-            throw new IllegalArgumentException("The cookie needs a name. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.cookie_name_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a name. Please enter one and try again :)");
             //Toast.makeText(this, getString(R.string.cookie_name_empty), Toast.LENGTH_SHORT).show();
         }
 
         if (descriptionString == null || descriptionString.isEmpty() ) {
-            throw new IllegalArgumentException("The cookie needs a description. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.cookie_description_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a description. Please enter one and try again :)");
         }
 
         if (priceString == null || priceString.isEmpty()) {
-            throw new IllegalArgumentException("The cookie needs a price. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.cookie_price_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a price. Please enter one and try again :)");
         } else {
             //Converting into a double
             //From: https://stackoverflow.com/questions/6866633/converting-string-to-double-in-android
@@ -178,32 +183,37 @@ public class EditCookie extends AppCompatActivity {
         }
 
         if (quantityString == null || quantityString.isEmpty()) {
-            throw new IllegalArgumentException("The cookie needs a quantity in stock. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.cookie_quantity_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a quantity in stock. Please enter one and try again :)");
         } else{
             //Converting into an integer, as specified in CookieJarContract.java
-            int quantity = Integer.parseInt(quantityString);
+            quantity = Integer.parseInt(quantityString);
             //int quantity = checkQuantityOfCookies();
         }
 
-        int type = Integer.parseInt(typeString);
-        //if (type == null || !CookieEntry.whichCookieType(type))
-        if (!CookieEntry.whichCookieType(type)) {
-            throw new IllegalArgumentException("Cookie is sweet by default");
+        cookieType = Integer.parseInt(typeString);
+        if (cookieType == null || !CookieEntry.whichCookieType(cookieType)) {
+        //if (!CookieEntry.whichCookieType(cookieType)) {
+            cookieType = 1;
+            //throw new IllegalArgumentException("Cookie is sweet by default");
         }
 
-        if ( supplierNameString == null ||  supplierNameString.isEmpty() ) {
-            throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
+        if (supplierNameString == null ||  supplierNameString.isEmpty() ) {
+            Toast.makeText(this, getString(R.string.supplier_name_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
         }
 
         if (supplierPhoneString == null || supplierPhoneString.isEmpty()) {
-            throw new IllegalArgumentException("The cookie needs a supplier phone number. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.supplier_phone_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a supplier phone number. Please enter one and try again :)");
         } else {
             //Converting into an integer, as specified in CookieJarContract.java
             phoneNumber = Integer.parseInt(supplierPhoneString);
         }
 
         if (supplierEmailString == null || supplierEmailString.isEmpty() ) {
-            throw new IllegalArgumentException("The cookie needs a supplier e-mail. Please enter one and try again :)");
+            Toast.makeText(this, getString(R.string.supplier_email_empty),Toast.LENGTH_LONG).show();
+            //throw new IllegalArgumentException("The cookie needs a supplier e-mail. Please enter one and try again :)");
         }
         //End: adding data validation
 
