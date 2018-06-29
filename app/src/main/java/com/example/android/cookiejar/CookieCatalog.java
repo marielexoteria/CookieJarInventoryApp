@@ -6,33 +6,46 @@ package com.example.android.cookiejar;
  * drawer-with-a-toolbar-on-android-m-68162f13d220
 */
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.widget.AdapterView;
+import android.widget.SimpleCursorAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
+
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 
-public class CookieCatalog extends AppCompatActivity {
+public class CookieCatalog extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //Declaring a variable that we need to enable a nav drawer
     private DrawerLayout drawerLayout;
+
+    //Declaring a constant to use with the CursorLoader
+    private static final int COOKIE_LOADER = 0;
+
+    //Creating an instance of the Adapter object to be used on the ListView
+    CookieCursorAdapter cookieCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +69,44 @@ public class CookieCatalog extends AppCompatActivity {
             }
         });
 
-        displayDatabaseInfo();
+        //Find the ListView which will be populated with the cookie data
+        ListView cookieListView = (ListView) findViewById(R.id.cookie_list_view);
 
+        //Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        cookieListView.setEmptyView(emptyView);
+
+        /* Setup an Adapter to create a list item for each row of the cookie data in the Cursor.
+         * There is no cookie data yet (until the loader finishes) so pass in null for the Cursor.
+         */
+        cookieCursorAdapter = new CookieCursorAdapter(this, null);
+        cookieListView.setAdapter(cookieCursorAdapter);
+
+        //Setting up item click listener
+        cookieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            //int position = position of the item in the ListView (which here is sent via the variable adapterView)
+            //long id = id of the item in the ListView
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                //Create new intent to go to {@link EditCookie}
+                Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
+
+                //Form the content URI that represents the specific cookie that was clicked on
+                //by appending the "id" (passed as input to this method) onto the
+                //{@link CookieEntry#CONTENT_URI}. For example, if cookie with id of 2 would be clicked on
+                //the URI would be "content://com.example.android.cookiejar/cookies/2"
+                Uri currentCookieUri = ContentUris.withAppendedId(CookieEntry.CONTENT_URI, id);
+
+                //Set the data URI on the data field of the intent
+                intent.setData(currentCookieUri);
+
+                //Launch the {@link EditorActivity} to display the data for the current pet
+                startActivity(intent);
+            }
+        });
+
+        //Kick off the loader
+        getLoaderManager().initLoader(COOKIE_LOADER, null, this);
     }
 
     /* Setting the toolbar as the action bar and the hamburger menu icon (icon_menu.xml)
@@ -106,10 +155,10 @@ public class CookieCatalog extends AppCompatActivity {
                                 return true;
 
                             case R.id.nav_about:
-                                Toast.makeText(CookieCatalog.this, "About coming soon",
-                                        Toast.LENGTH_SHORT).show();
-                                /*Intent intentAbout = new Intent(CookieCatalog.this, About.class);
-                                startActivity(intentAbout);*/
+                                /*Toast.makeText(CookieCatalog.this, "About coming soon",
+                                        Toast.LENGTH_SHORT).show();*/
+                                Intent intentAbout = new Intent(CookieCatalog.this, About.class);
+                                startActivity(intentAbout);
                                 return true;
                         }
 
@@ -118,115 +167,6 @@ public class CookieCatalog extends AppCompatActivity {
                 });
     }
 
-
-    //This method will refresh the CookieCatalog with the info about the new cookie after it was inserted
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
-
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the cookies table.
-     */
-    private void displayDatabaseInfo() {
-        //Define a projection that specifies the columns that will be used
-        //WILL NEED TO REMOVE THE SUPPLIER INFO HERE SINCE IT'S NOT NEEDED IN activity_cookie_catalog.xml
-        //THEY WILL BE NEEDED IN THE COOKIE DETAILS PAGE THAT I HAVE YET TO MAKE
-        String[] cookieProjection = {
-                CookieEntry._ID,
-                CookieEntry.COOKIE_NAME,
-                CookieEntry.COOKIE_DESCRIPTION,
-                CookieEntry.COOKIE_PRICE,
-                CookieEntry.COOKIE_QUANTITY,
-                CookieEntry.COOKIE_TYPE,
-                CookieEntry.COOKIE_SUPPLIER_NAME,
-                CookieEntry.COOKIE_SUPPLIER_PHONE_NR,
-                CookieEntry.COOKIE_SUPPLIER_EMAIL
-        };
-
-        //Perform a query on the provider using the ContentResolver.
-        //Use the @Link {CookieEntry#CONTENT_URI} to access the cookie data
-        Cursor cursor = getContentResolver().query(
-                CookieEntry.CONTENT_URI,
-                cookieProjection,
-                null,
-                null,
-                null
-        );
-
-        TextView displayView = (TextView) findViewById(R.id.text_view_cookie);
-
-        try {
-            //Creating a header in the TextView that looks like this:
-            //Number of cookies in the cookie jar: NUMBER
-            //_id - name - price - quantity - type - supplier name - supplier phone number -
-            //supplier e-mail
-
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            displayView.setText(getString(R.string.db_row_info) + cursor.getCount() + "\n\n");
-            displayView.append(CookieEntry._ID + " - " +
-                    CookieEntry.COOKIE_NAME + " - " +
-                    CookieEntry.COOKIE_DESCRIPTION + " - " +
-                    CookieEntry.COOKIE_PRICE + " - " +
-                    CookieEntry.COOKIE_QUANTITY + " - " +
-                    CookieEntry.COOKIE_TYPE + " - " +
-                    CookieEntry.COOKIE_SUPPLIER_NAME + " - " +
-                    CookieEntry.COOKIE_SUPPLIER_PHONE_NR + " - " +
-                    CookieEntry.COOKIE_SUPPLIER_EMAIL + "\n"
-            );
-
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(CookieEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_NAME);
-            int descriptionColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_DESCRIPTION);
-            int priceColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_QUANTITY);
-            int typeColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_TYPE);
-            int supplierNameColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_NAME);
-            int supplierPhoneNrColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_PHONE_NR);
-            int supplierEmailColumnIndex = cursor.getColumnIndex(CookieEntry.COOKIE_SUPPLIER_EMAIL);
-
-            //Looping through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                //Use that index to extract the String/Double/int value of the word
-                //at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                String currentDescription = cursor.getString(descriptionColumnIndex);
-                Double currentPrice = cursor.getDouble(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                int currentType = cursor.getInt(typeColumnIndex);
-                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
-                int currentSupplierPhoneNr = cursor.getInt(supplierPhoneNrColumnIndex);
-                String currentSupplierEmail = cursor.getString(supplierEmailColumnIndex);
-
-
-                //Changing the type from 1/2 to Sweet/Savoury
-                String type = "";
-                switch(currentType) {
-                    case 1:
-                        type = "Sweet";
-                        break;
-                    case 2:
-                        type = "Savoury";
-                        break;
-                }
-
-
-                //Displaying the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + ") " +
-                        currentName + " - " + currentDescription + " - " + currentPrice + " - " + currentQuantity + " - "
-                        + type + " - " + currentSupplierName + " - " + currentSupplierPhoneNr + " - " + currentSupplierEmail));
-            }
-        } finally {
-            //Closing the cursor when done reading it to release resources and make it invalid
-            cursor.close();
-        }
-
-    }
 
     //Helper method to insert hard-coded data into the db
     private void insertCookie() {
@@ -243,12 +183,14 @@ public class CookieCatalog extends AppCompatActivity {
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_PHONE_NR, "12345678");
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_EMAIL, "yo@yo.com");
 
-        // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
-        // into the pets database table.
+        // Insert a new row for a cookie into the provider using the ContentResolver.
+        // Use the {@link CookieEntry#CONTENT_URI} to indicate that we want to insert
+        // into the cookiejar database table.
         // Receive the new content URI that will allow us to access Toto's data in the future.
         Uri newUri = getContentResolver().insert(CookieEntry.CONTENT_URI, cookieValues);
 
+        //Toast message
+        Toast.makeText(this, getString(R.string.dummy_data_saved_in_db) , Toast.LENGTH_SHORT).show();
     }
 
     //Creating the overflow menu
@@ -270,7 +212,6 @@ public class CookieCatalog extends AppCompatActivity {
             //Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertCookie();
-                displayDatabaseInfo();
                 return true;
 
             //Respond to a click on the "Delete all entries" menu option
@@ -285,5 +226,43 @@ public class CookieCatalog extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        //Define a projection that specifies the columns that are needed for the ListView
+        String[] cookieProjection = {
+                CookieEntry._ID,
+                CookieEntry.COOKIE_NAME,
+                CookieEntry.COOKIE_DESCRIPTION,
+                CookieEntry.COOKIE_PRICE,
+                CookieEntry.COOKIE_QUANTITY,
+                CookieEntry.COOKIE_TYPE
+        };
+
+        //This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this, //Parent activity context
+                CookieEntry.CONTENT_URI,      //Provider content URI to query
+                cookieProjection,             //Columns to include in the resulting cursor
+                null,                //No selection clause
+                null,             //No selection arguments
+                null                 //Default sort order
+
+        );
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        //Update {@Link CookieCursorAdapter} with the new cursor containing updated cookie data
+        cookieCursorAdapter.swapCursor(data);
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        //Callback called when the data needs to be deleted
+        cookieCursorAdapter.swapCursor(null);
+
     }
 }

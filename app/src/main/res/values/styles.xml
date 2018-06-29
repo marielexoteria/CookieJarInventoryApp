@@ -52,7 +52,7 @@
     <!-- Style for a category in "add a cookie" or "edit cookie" -->
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">@dimen/zero_dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingRight">@dimen/padding_styles</item>
         <item name="android:textColor">@color/colorAccent</item>
@@ -67,7 +67,7 @@
         <item name="android:layout_weight">2</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
-        <item name="android:textColor">@color/textColorPlaceholderText</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <!-- Style for the measurement units for an EditText field in "add a cookie" or "edit cookie" -->

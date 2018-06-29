@@ -1,15 +1,13 @@
 <resources>
     <string name="app_name">Cookie Jar Inventory App</string>
 
-    <!-- Strings used in activity_edit_cookie.xml -->
-    <!-- Labels -->
-
+    <!-- Labels used in activity_edit_cookie.xml -->
     <string name="cookie_info">Cookie info</string>
     <string name="cookie_name">Name:</string>
     <string name="cookie_description">Description:</string>
-    <string name="cookie_price">Price per unit:</string>
+    <string name="cookie_price">Price per unit (SEK):</string>
     <string name="cookie_quantity">Quantity:</string>
-    <string name="cookie_type">Type of cookie:</string>
+    <string name="cookie_type">Type:</string>
     <string name="supplier_info">Supplier info</string>
     <string name="supplier_name">Name:</string>
     <string name="supplier_phone_nr">Phone number:</string>
@@ -17,18 +15,22 @@
     <string name="button_fewer_cookies">-</string>
     <string name="button_more_cookies">+</string>
 
+    <!-- Labels for add or edit cookie -->
+    <string name="app_bar_title_add_cookie">Add a cookie</string>
+    <string name="app_bar_title_edit_cookie">Edit cookie</string>
+
     <!-- Dropdown menu options -->
     <string name="cookie_type_sweet">Sweet</string>
     <string name="cookie_type_savoury">Savoury</string>
 
     <!-- Hints -->
-    <string name="cookie_name_hint">For ex. Wafer ABC</string>
+    <string name="cookie_name_hint">Wafer ABC</string>
     <string name="cookie_description_hint">Delicious cookie to have with your afternoon coffee</string>
-    <string name="cookie_price_hint">For ex. 12.50</string>
+    <string name="cookie_price_hint">2.50</string>
     <string name="cookie_quantity_hint">1</string>
-    <string name="supplier_name_hint">For ex. Acme, Inc.</string>
-    <string name="supplier_phone_nr_hint">For ex: 00461234567890</string>
-    <string name="supplier_email_hint">For ex: mail@mail.com</string>
+    <string name="supplier_name_hint">Acme, Inc.</string>
+    <string name="supplier_phone_nr_hint">1234567890</string>
+    <string name="supplier_email_hint">mail@mail.com</string>
 
     <!-- Miscellaneous -->
     <string name="currency">SEK</string>
@@ -37,14 +39,12 @@
     <string name="insert_dummy_data">Insert dummy data</string>
     <string name="delete_all_entries">Delete all entries</string>
 
+    <!-- String used in the toast when inserting dummy data -->
+    <string name="dummy_data_saved_in_db">Cookie saved: Ballerina</string>
+
     <!-- Strings used in menu_edit_cookie.xml -->
     <string name="save_cookie">Save cookie</string>
     <string name="delete_cookie">Delete cookie</string>
-
-    <!-- Temp strings used in CookieCatalog.java. Will most likely
-    be deleted when the app is finished -->
-    <string name="db_row_info">Number of cookies in the cookie jar:\u0020</string>
-    <string name="title_activity_nav_drawer">"Cookie Jar Inventory App"</string>
 
     <!-- Strings used in the nav drawer -->
     <string name="nav_drawer_title">Cookie Jar Inventory App</string>
@@ -53,14 +53,19 @@
     <string name="menu_item_3">Settings</string>
     <string name="menu_item_4">About</string>
 
-    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new cookie has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_cookie_successful">New cookie added:\u0020</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new cookie has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_cookie_failed">Cannot add cookie:\u0020</string>
 
+    <!-- Toast message in editor when the current cookie was successfully updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_cookie_successful">Cookie updated:\u0020</string>
 
-    <!-- Labels for error messages in case of empty fields (add a cookie/edit cookie) -->
+    <!-- Toast message in editor when the current cookie has failed to be updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_cookie_failed">Cannot update cookie:\u0020</string>
+
+    <!-- Error messages in case of empty fields (add a cookie/edit cookie) -->
     <string name="cookie_name_empty">The cookie needs a name. Please enter one and try again :)</string>
     <string name="cookie_description_empty">The cookie needs a description. Please enter one and try again :)</string>
     <string name="cookie_price_empty">The cookie needs a price. Please enter one and try again :)</string>
@@ -68,5 +73,15 @@
     <string name="supplier_name_empty">The cookie needs a supplier name. Please enter one and try again :)</string>
     <string name="supplier_phone_empty">The cookie needs a supplier phone number. Please enter one and try again :)</string>
     <string name="supplier_email_empty">The cookie needs a supplier e-mail. Please enter one and try again :)</string>
+
+    <!-- Error message in case of negative number in the cookie quantity -->
+    <string name="cookie_quantity_negative_number">There needs to be at least one cookie :)</string>
+
+    <!-- Error message in case of invalid e-mail -->
+    <string name="invalid_email">The e-mail is invalid. Please check and try again :)</string>
+
+    <!-- Empty view text: no data -->
+    <string name="empty_view_no_data1">Oh no! We ran out of cookies.</string>
+    <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
 
 </resources>

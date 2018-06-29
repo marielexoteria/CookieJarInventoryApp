@@ -13,6 +13,9 @@
     <dimen name="layout_height_spinner">48dp</dimen>
     <dimen name="margin_buttons">6dp</dimen>
     <dimen name="text_size_button_labels">20sp</dimen>
+    <dimen name="button_size">50dp</dimen>
+    <dimen name="text_size_edittext">15sp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
 
     <!-- Values used in styles.xml -->
     <dimen name="padding_styles">16dp</dimen>

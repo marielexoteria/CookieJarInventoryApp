@@ -17,13 +17,49 @@
         android:background="@color/backgroundColorWithTransparency"
         tools:context=".CookieCatalog">
 
-        <TextView
-            android:id="@+id/text_view_cookie"
+        <ListView
+            android:id="@+id/cookie_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_top_from_actionbar"
             android:padding="@dimen/margin_horizontal"
             android:textColor="@color/textColor" />
+
+        <!-- Empty view for the list -->
+        <RelativeLayout
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/empty_cookiejar_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/empty_view_no_data"/>
+
+            <TextView
+                android:id="@+id/empty_title_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/empty_cookiejar_image"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_vertical"
+                android:text="@string/empty_view_no_data1"
+                android:textColor="@color/colorAccent"/>
+
+            <TextView
+                android:id="@+id/empty_title_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/empty_title_text1"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/empty_view_no_data2"
+                android:textColor="@color/textColorHintTexts"/>
+        </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -32,7 +68,13 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/fab" />
+            android:src="@drawable/fab"
+            android:scaleType="center"
+            app:fabSize="normal"/>
+        <!-- Issue with the FAB icon showing smaller solved with
+        the help of https://stackoverflow.com/questions/27484126/
+        adjust-icon-size-of-floating-action-button-fab
+        (scaleType and fabSize)-->
 
         <include layout="@layout/toolbar" />
 

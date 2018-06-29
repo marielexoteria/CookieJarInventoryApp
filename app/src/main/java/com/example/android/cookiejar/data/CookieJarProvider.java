@@ -25,16 +25,22 @@ import static android.provider.Settings.Global.getString;
 
 public class CookieJarProvider extends ContentProvider {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = CookieJarProvider.class.getSimpleName();
 
     //Creating an object of type CookieJarDbHelper (database helper)
     private CookieJarDbHelper cookieDbHelper;
 
-    /** URI matcher code for the content URI for the pets table */
+    /**
+     * URI matcher code for the content URI for the cookiejar table
+     */
     private static final int COOKIES = 100;
 
-    /** URI matcher code for the content URI for a single pet in the pets table */
+    /**
+     * URI matcher code for the content URI for a single cookie in the cookiejar table
+     */
     private static final int COOKIE_ID = 101;
 
     /**
@@ -95,9 +101,9 @@ public class CookieJarProvider extends ContentProvider {
                 // arguments that will fill in the "?". Since we have 1 question mark in the
                 // selection, we have 1 String in the selection arguments' String array.
                 selection = CookieEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the cookie table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(CookieEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -105,6 +111,15 @@ public class CookieJarProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+
+        /* Set notification URI on the Cursor, so we know what content URI the cursor was
+         * created for. If the data at this URI changes, then we know we need to update
+         * the cursor.
+         */
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        //Return the cursor
         return cursor;
     }
 
@@ -129,65 +144,56 @@ public class CookieJarProvider extends ContentProvider {
      */
     private Uri insertCookie(Uri uri, ContentValues contentValues) {
 
-        //Beginning: adding data validation
+        /* Beginning: data validation - checking that the fields are not null.
+         * Code issues solved thanks to the recommendation from @cbp on the Udacity forums:
+         * https://discussions.udacity.com/t/app-crashes-upon-sanity-check/814508/8
+         */
 
-        // Check that the name is not null
         String cookieName = contentValues.getAsString(CookieEntry.COOKIE_NAME);
-        if (cookieName == null || cookieName.isEmpty() ) {
+        if (cookieName == null) {
             throw new IllegalArgumentException("The cookie needs a name. Please enter one and try again :)");
-            //Toast.makeText(this, "The cookie needs a name. Please enter one and try again :)", Toast.LENGTH_SHORT).show();
         }
 
-        // Check that the description is not null
         String cookieDescription = contentValues.getAsString(CookieEntry.COOKIE_DESCRIPTION);
-        if (cookieDescription == null || cookieDescription.isEmpty()) {
+        if (cookieDescription == null) {
             throw new IllegalArgumentException("The cookie needs a description. Please enter one and try again :)");
-            //Log.e(LOG_TAG, "The cookie needs a description. Please enter one and try again :)");
         }
 
-        // Check that the price is valid
         String cookiePrice = contentValues.getAsString(CookieEntry.COOKIE_PRICE);
-        if (cookiePrice == null || cookiePrice.isEmpty()) {
+        if (cookiePrice == null) {
             throw new IllegalArgumentException("The cookie needs a price. Please enter one and try again :)");
         }
 
-        // Check that the quantity is valid
-        Integer quantity = contentValues.getAsInteger(CookieEntry.COOKIE_QUANTITY);
-        if (quantity <= 0) {
+        String cookieQuantity = contentValues.getAsString(CookieEntry.COOKIE_QUANTITY);
+        if (cookieQuantity == null) {
             throw new IllegalArgumentException("The cookie needs a quantity in stock. Please enter one and try again :)");
         }
 
-        // Check that the cookie type is valid - commented out for now
-        /*Integer cookieType = contentValues.getAsInteger(CookieEntry.COOKIE_TYPE);
-        if (cookieType == null || !CookieEntry.whichCookieType(cookieType)) {
-            throw new IllegalArgumentException("The cookie will be sweet by default");
-        }*/
-
-        // Check that the supplier name is not null
-        String cookieSupplierName = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_NAME);
-        if (cookieSupplierName == null || cookieSupplierName.isEmpty()) {
-            throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
-            //Log.e(LOG_TAG, "The cookie needs a supplier name. Please enter one and try again :)");
+        String cookieType = contentValues.getAsString(CookieEntry.COOKIE_TYPE);
+        if (cookieType == null) {
+            throw new IllegalArgumentException("The cookie needs a type and will be sweet by default :)");
         }
 
-        // Check that the supplier phone number is valid
-        Integer cookieSupplierPhoneNr = contentValues.getAsInteger(CookieEntry.COOKIE_SUPPLIER_PHONE_NR);
-        if (cookieSupplierPhoneNr <= 0) {
+        String supplierName = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
+        }
+
+        String supplierPhoneNr = contentValues.getAsString(CookieEntry.COOKIE_PRICE);
+        if (supplierPhoneNr == null) {
             throw new IllegalArgumentException("The cookie needs a supplier phone number. Please enter one and try again :)");
         }
 
-        // Check that the supplier e-mail is not null
-        String cookieSupplierEmail = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_EMAIL);
-        if (cookieSupplierEmail == null || cookieSupplierEmail.isEmpty()) {
+        String supplierEmail = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_EMAIL);
+        if (supplierEmail == null) {
             throw new IllegalArgumentException("The cookie needs a supplier e-mail. Please enter one and try again :)");
-            //Log.e(LOG_TAG, "The cookie needs a supplier e-mail. Please enter one and try again :)");
         }
-        //End: adding data validation
+        /* End: data validation */
 
         // Get writeable database
         SQLiteDatabase database = cookieDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new cookie with the given values
         long id = database.insert(CookieEntry.TABLE_NAME, null, contentValues);
 
         // If the ID is -1, then the insertion failed. Log an error and return null.
@@ -195,6 +201,11 @@ public class CookieJarProvider extends ContentProvider {
             Log.e(LOG_TAG, "Cannot insert row for " + uri);
             return null;
         }
+
+        //Notify all listeners that the data has changed for the cookie content URI
+        //uri: content://com.example.android.cookiejar/cookies
+        getContext().getContentResolver().notifyChange(uri, null);
+
 
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
@@ -216,7 +227,7 @@ public class CookieJarProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = CookieEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateCookie(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -224,103 +235,103 @@ public class CookieJarProvider extends ContentProvider {
     }
 
     /**
-     * Update pets in the database with the given content values. Apply the changes to the rows
-     * specified in the selection and selection arguments (which could be 0 or 1 or more pets).
+     * Update the cookies in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more cookies).
      * Return the number of rows that were successfully updated.
      */
     private int updateCookie(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
-        //Beginning: adding data validation
+        /* If there are no values to update, then don't try to update the database.
+         * Moving this IF-statement to the beginning as per a suggestion from jlin26 on
+         * https://github.com/udacity/ud845-Pets/commit/a1bcc0c35b19ee0c5b85ba295312e439bcf74bd8
+         */
+        if (contentValues.size() == 0) {
+            return 0;
+        }
+        /* Beginning: data validation - checking that the fields are not null.
+         * Code issues solved thanks to the recommendation from @cbp on the Udacity forums:
+         * https://discussions.udacity.com/t/app-crashes-upon-sanity-check/814508/8
+         * Each IF-statement will run the code inside if the key CookieEntry.KEY_NAME are present
+         */
 
-        // If the {@link CookieEntry#COOKIE_NAME} key is present,
         if (contentValues.containsKey(CookieEntry.COOKIE_NAME)) {
-            // Check that the name is not null
-            String name = contentValues.getAsString(CookieEntry.COOKIE_NAME);
-            if (name == null) {
+            String cookieName = contentValues.getAsString(CookieEntry.COOKIE_NAME);
+            if (cookieName == null) {
                 throw new IllegalArgumentException("The cookie needs a name. Please enter one and try again :)");
-                //Log.e(LOG_TAG, "The cookie needs a name. Please enter one and try again :)");
-                //Toast.makeText(this, "The cookie needs a name. Please enter one and try again :)", Toast.LENGTH_SHORT).show();
             }
         }
 
-        // If the {@link CookieEntry#COOKIE_DESCRIPTION} key is present,
         if (contentValues.containsKey(CookieEntry.COOKIE_DESCRIPTION)) {
-            // Check that the description is not null
             String cookieDescription = contentValues.getAsString(CookieEntry.COOKIE_DESCRIPTION);
-            if (cookieDescription == null || cookieDescription.isEmpty()) {
+            if (cookieDescription == null) {
                 throw new IllegalArgumentException("The cookie needs a description. Please enter one and try again :)");
-                //Log.e(LOG_TAG, "The cookie needs a description. Please enter one and try again :)");
             }
         }
 
-        // If the {@link CookieEntry#COOKIE_PRICE} key is present,
         if (contentValues.containsKey(CookieEntry.COOKIE_PRICE)) {
-            // Check that the price is not null
             String cookiePrice = contentValues.getAsString(CookieEntry.COOKIE_PRICE);
-            if (cookiePrice == null || cookiePrice.isEmpty()) {
+            if (cookiePrice == null) {
                 throw new IllegalArgumentException("The cookie needs a price. Please enter one and try again :)");
             }
         }
 
-        // If the {@link CookieEntry#COOKIE_PRICE} key is present,
         if (contentValues.containsKey(CookieEntry.COOKIE_PRICE)) {
-            // Check that the quantity is valid
-            Integer quantity = contentValues.getAsInteger(CookieEntry.COOKIE_QUANTITY);
-            if (quantity <= 0) {
+            String cookiePrice = contentValues.getAsString(CookieEntry.COOKIE_PRICE);
+            if (cookiePrice == null) {
+                throw new IllegalArgumentException("The cookie needs a price. Please enter one and try again :)");
+            }
+        }
+
+        if (contentValues.containsKey(CookieEntry.COOKIE_QUANTITY)) {
+            String cookieQuantity = contentValues.getAsString(CookieEntry.COOKIE_QUANTITY);
+            if (cookieQuantity == null) {
                 throw new IllegalArgumentException("The cookie needs a quantity in stock. Please enter one and try again :)");
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_GENDER} key is present, - commented out for now
-        /*if (contentValues.containsKey(CookieEntry.COOKIE_TYPE)) {
-            // Check that the cookie type is valid
-            Integer cookieType = contentValues.getAsInteger(CookieEntry.COOKIE_TYPE);
-            if (cookieType == null || !CookieEntry.whichCookieType(cookieType)) {
-                throw new IllegalArgumentException("The cookie will be sweet by default");
-            }
-        }*/
-
-        // If the {@link CookieEntry#COOKIE_SUPPLIER_NAME} key is present,
-        if (contentValues.containsKey(CookieEntry.COOKIE_SUPPLIER_NAME)) {
-            // Check that the supplier name is not null
-            String cookieSupplierName = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_NAME);
-            if (cookieSupplierName == null || cookieSupplierName.isEmpty()) {
-                throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
-                //Log.e(LOG_TAG, "The cookie needs a supplier name. Please enter one and try again :)");
+        if (contentValues.containsKey(CookieEntry.COOKIE_TYPE)) {
+            String cookieType = contentValues.getAsString(CookieEntry.COOKIE_TYPE);
+            if (cookieType == null) {
+                throw new IllegalArgumentException("The cookie needs a type and will be sweet by default :)");
             }
         }
 
-        // If the {@link CookieEntry#COOKIE_SUPPLIER_PHONE_NR} key is present,
+        if (contentValues.containsKey(CookieEntry.COOKIE_SUPPLIER_NAME)) {
+            String supplierName = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_NAME);
+            if (supplierName == null) {
+                throw new IllegalArgumentException("The cookie needs a supplier name. Please enter one and try again :)");
+            }
+        }
+
         if (contentValues.containsKey(CookieEntry.COOKIE_SUPPLIER_PHONE_NR)) {
-            // Check that the supplier phone number is valid
-            Integer cookieSupplierPhoneNr = contentValues.getAsInteger(CookieEntry.COOKIE_SUPPLIER_PHONE_NR);
-            if (cookieSupplierPhoneNr <= 0) {
+            String supplierPhoneNr = contentValues.getAsString(CookieEntry.COOKIE_PRICE);
+            if (supplierPhoneNr == null) {
                 throw new IllegalArgumentException("The cookie needs a supplier phone number. Please enter one and try again :)");
             }
         }
 
-        // If the {@link CookieEntry#COOKIE_SUPPLIER_EMAIL} key is present,
         if (contentValues.containsKey(CookieEntry.COOKIE_SUPPLIER_EMAIL)) {
-            // Check that the supplier e-mail is not null
-            String cookieSupplierEmail = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_EMAIL);
-            if (cookieSupplierEmail == null || cookieSupplierEmail.isEmpty()) {
+            String supplierEmail = contentValues.getAsString(CookieEntry.COOKIE_SUPPLIER_EMAIL);
+            if (supplierEmail == null) {
                 throw new IllegalArgumentException("The cookie needs a supplier e-mail. Please enter one and try again :)");
-                //Log.e(LOG_TAG, "The cookie needs a supplier e-mail. Please enter one and try again :)");
             }
         }
-        //End: adding data validation
+        /* End: data validation */
 
-        // If there are no values to update, then don't try to update the database
-        if (contentValues.size() == 0) {
-            return 0;
-        }
-
-        // Otherwise, get writeable database to update the data
+        //Otherwise, get writeable database to update the data
         SQLiteDatabase database = cookieDbHelper.getWritableDatabase();
 
-        // Returns the number of database rows affected by the update statement
-        return database.update(CookieEntry.TABLE_NAME, contentValues, selection, selectionArgs);
-    }
+        //Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(CookieEntry.TABLE_NAME, contentValues, selection, selectionArgs);
 
+        //If 1 or more rows were updated, then notify all listeners that the data at the given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        //Return the number of rows updated
+        return rowsUpdated;
+
+    }
 
 
     /**
@@ -328,24 +339,37 @@ public class CookieJarProvider extends ContentProvider {
      */
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        /// Get writeable database
+        //Get writeable database
         SQLiteDatabase database = cookieDbHelper.getWritableDatabase();
+
+        //Track the number of rows that were deleted
+        int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case COOKIES:
-                // Delete all rows that match the selection and selection args
-                return database.delete(CookieEntry.TABLE_NAME, selection, selectionArgs);
+                //Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(CookieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case COOKIE_ID:
-                // Delete a single row given by the ID in the URI
+
+                //Delete a single row given by the ID in the URI
                 selection = CookieEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return database.delete(CookieEntry.TABLE_NAME, selection, selectionArgs);
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(CookieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
-    }
 
+        //If 1 or more rows were deleted, then notify all listeners that the data at the given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        //Return the number of rows deleted
+        return rowsDeleted;
+    }
 
 
     @Nullable

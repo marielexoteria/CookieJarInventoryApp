@@ -19,7 +19,6 @@
 
         <activity
             android:name=".EditCookie"
-            android:label="Add a cookie"
             android:parentActivityName=".CookieCatalog">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
