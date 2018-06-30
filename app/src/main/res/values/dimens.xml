@@ -4,7 +4,7 @@
     <dimen name="margin_horizontal">16dp</dimen>
     <dimen name="margin_vertical">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="margin_top_from_actionbar">50dp</dimen>
+    <dimen name="margin_top_from_actionbar">70dp</dimen>
     <dimen name="section_label_size">16sp</dimen>
 
     <!-- Values used in activity_edit_cookie.xml -->
@@ -17,10 +17,25 @@
     <dimen name="text_size_edittext">15sp</dimen>
     <dimen name="zero_dp">0dp</dimen>
 
+    <!-- Values needed for styling the cookie data in cookie_list_item.xml -->
+    <dimen name="padding_card_style_bg">10dp</dimen>
+    <dimen name="general_space">10dp</dimen>
+    <dimen name="cookie_name_size">30sp</dimen>
+    <dimen name="body_text">14sp</dimen>
+    <dimen name="special_info">16sp</dimen>
+    <dimen name="margin_top_cookie_description">20dp</dimen>
+    <dimen name="margin_top_cookie_quantity">5dp</dimen>
+    <dimen name="margin_bottom_cookie_quantity">40dp</dimen>
+    <dimen name="button_text_size">22sp</dimen>
+
     <!-- Values used in styles.xml -->
     <dimen name="padding_styles">16dp</dimen>
 
     <!-- Values use din nav_header.xml -->
     <dimen name="nav_header_padding">16dp</dimen>
     <dimen name="nav_header_height">192dp</dimen>
+
+    <!-- Dimensions used in drawable/card_style_background.xml -->
+    <dimen name="border_radius_shape">2dp</dimen>
+    <dimen name="border_radius_shadow">2.5dp</dimen>
 </resources>

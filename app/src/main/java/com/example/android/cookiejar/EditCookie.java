@@ -3,9 +3,12 @@ package com.example.android.cookiejar;
 /* Toolbar implementation code taken from https://medium.com/@ssaurel/implement-a-navigation-
  drawer-with-a-toolbar-on-android-m-68162f13d220 */
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -13,12 +16,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +35,9 @@ import android.widget.Toast;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import static com.example.android.cookiejar.data.CookieJarContract.CookieEntry.COOKIE_TYPE_SWEET;
 
@@ -86,7 +95,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     private EditText cookieSupplierEmailEditText;
 
     /**
-     * Type of cookie: 1 = sweet, 2 = savoury
+     * Type of cookie: 0 = sweet, 1 = savoury
      */
     private int cookieType = 0;
 
@@ -94,6 +103,23 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     String quantityString;
     int quantity = 0;
     Button moreCookiesButton, fewerCookiesButton;
+
+    /* Variable needed to warn the user about unsaved changes.
+     * The variable will check whether the cookie was changed or not.
+     */
+    private boolean cookieHasChanged = false;
+
+    /* OnTouchListener that listens for any user touches on a View, implying that they are modifying
+     * the view, and we change the cookieHasChanged boolean to true.
+     */
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            cookieHasChanged = true;
+            return false;
+        }
+    };
+
 
 
     @Override
@@ -111,6 +137,11 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         if (currentCookieUri == null) {
             //New cookie, so change the app bar title to "Add a cookie"
             setTitle(getString(R.string.app_bar_title_add_cookie));
+
+            /* Invalidate the options menu, so the "Delete" menu option can be hidden.
+             * (It doesn't make sense to delete a cookie that hasn't been created yet.)
+             */
+            invalidateOptionsMenu();
 
         } else {
             //Existing cookie, so change the app bar title to "Edit cookie"
@@ -135,6 +166,20 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         cookieSupplierNameEditText = (EditText) findViewById(R.id.edit_cookie_supplier_name);
         cookieSupplierPhoneNrEditText = (EditText) findViewById(R.id.edit_cookie_supplier_phone);
         cookieSupplierEmailEditText = (EditText) findViewById(R.id.edit_cookie_supplier_email);
+
+        /* Setting up OnTouchListeners on all the input fields, so we can determine if the user
+         * has touched or modified them. This will let us know if there are unsaved changes
+         * or not, if the user tries to leave the editor without saving.
+         */
+        cookieNameEditText.setOnTouchListener(touchListener);
+        cookieDescriptionEditText.setOnTouchListener(touchListener);
+        cookiePriceEditText.setOnTouchListener(touchListener);
+        cookieQuantityEditText.setOnTouchListener(touchListener);
+        cookieTypeSpinner.setOnTouchListener(touchListener);
+        cookieSupplierNameEditText.setOnTouchListener(touchListener);
+        cookieSupplierPhoneNrEditText.setOnTouchListener(touchListener);
+        cookieSupplierEmailEditText.setOnTouchListener(touchListener);
+
 
         //Connecting the buttons to add or subtract cookies
         moreCookiesButton = (Button) findViewById(R.id.more_cookies);
@@ -339,22 +384,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_PHONE_NR, phoneNumber);
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_EMAIL, supplierEmailString);
 
-        //Insert a new cookie into the provider, returning the content URI for the new cookie.
-        //Uri newUri = getContentResolver().insert(CookieEntry.CONTENT_URI, cookieValues);
-
-        //Displaying a toast to inform the user if adding the cookie was successful or not
-        /*if (newUri == null) {
-            //There was an error with adding the cookie
-            Toast.makeText(this, getString(R.string.editor_insert_cookie_failed)
-                    + nameString, Toast.LENGTH_SHORT).show();
-        } else {
-            //Adding the cookie was successful
-            Toast.makeText(this, getString(R.string.editor_insert_cookie_successful)
-                    + nameString, Toast.LENGTH_SHORT).show();
-        }*/
-
         //Determine if this is a new or existing cookie by checking if currentCookieUri is null or not
-
         if (currentCookieUri == null) {
             /* This is a new cookie, so insert it into the provider and return the
              * content URI for it.
@@ -363,11 +393,11 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
             //Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
-                //If the new content URI is null, then there was an error with insertion.
+                //There was an error with insertion
                 Toast.makeText(this, getString(R.string.editor_insert_cookie_failed) + nameString,
                         Toast.LENGTH_SHORT).show();
             } else {
-                //Otherwise, the insertion was successful and we can display a toast.
+                //The insertion was successful
                 Toast.makeText(this, getString(R.string.editor_insert_cookie_successful) + nameString,
                         Toast.LENGTH_SHORT).show();
             }
@@ -381,11 +411,11 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
             //Show a toast message depending on whether or not the update was successful.
             if (rowsAffected == 0) {
-                //If no rows were affected, then there was an error with the update.
+                //There was an error with the update
                 Toast.makeText(this, getString(R.string.editor_update_cookie_failed) + nameString,
                         Toast.LENGTH_SHORT).show();
             } else {
-                //Otherwise, the update was successful and we can display a toast.
+                //The update was successful and we can display a toast
                 Toast.makeText(this, getString(R.string.editor_update_cookie_successful) + nameString,
                         Toast.LENGTH_SHORT).show();
             }
@@ -400,6 +430,17 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
         //Adding the menu items from res/menu/menu_edit_cookie.xml to the app bar
         getMenuInflater().inflate(R.menu.menu_edit_cookie, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        //If this is a new cookie, hide the "Delete" menu item.
+        if (currentCookieUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
@@ -430,17 +471,64 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
             //Respond to a click on the "Delete" menu option
             case R.id.action_delete:
-                Toast.makeText(this, "Coming soon - Delete cookie", Toast.LENGTH_SHORT).show();
+                showDeleteConfirmationDialog();
                 return true;
 
             //Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                //Navigate back to parent activity (CookieCatalog)
-                NavUtils.navigateUpFromSameTask(this);
+                /* If the cookie hasn't changed, continue with navigating up to parent activity
+                 * which is the {@link CookieCatalog}.
+                 */
+                if (!cookieHasChanged) {
+                    NavUtils.navigateUpFromSameTask(EditCookie.this);
+                    return true;
+                }
+
+                /* Otherwise if there are unsaved changes, set up a dialog to warn the user.
+                 * Create a click listener to handle the user confirming that changes
+                 * should be discarded.
+                 */
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //User clicked "Discard" button, navigate to parent activity.
+                                NavUtils.navigateUpFromSameTask(EditCookie.this);
+                            }
+                        };
+
+                //Show a dialog that notifies the user they have unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /*
+     * This method is called when the back button is pressed.
+     */
+     @Override
+     public void onBackPressed() {
+         //If the cookie hasn't changed, continue with handling back button press
+         if (!cookieHasChanged) {
+             super.onBackPressed();
+             return;
+         }
+
+         /* Otherwise if there are unsaved changes, set up a dialog to warn the user.
+          * Create a click listener to handle the user confirming that changes should be discarded.
+          */
+         DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialogInterface, int i) {
+                 //User clicked "Discard" button, close the current activity.
+                 finish();
+             }
+         };
+
+         //Show dialog that there are unsaved changes
+         showUnsavedChangesDialog(discardButtonClickListener);
+     }
 
 
     @Override
@@ -508,18 +596,18 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
             cookieSupplierEmailEditText.setText(supplierEmail);
 
             /* Type is a dropdown spinner, so map the constant value from the database
-             * into one of the dropdown options (1 is Sweet, 2 is Savoury).
+             * into one of the dropdown options (0 is Sweet, 1 is Savoury).
              * Then call setSelection() so that option is displayed on screen as the current selection.
              */
             switch (cookieType) {
                 case CookieEntry.COOKIE_TYPE_SWEET:
-                    cookieTypeSpinner.setSelection(1);
+                    cookieTypeSpinner.setSelection(0);
                     break;
                 case CookieEntry.COOKIE_TYPE_SAVOURY:
-                    cookieTypeSpinner.setSelection(2);
+                    cookieTypeSpinner.setSelection(1);
                     break;
                 default:
-                    cookieTypeSpinner.setSelection(1);
+                    cookieTypeSpinner.setSelection(0);
                     break;
             }
         }
@@ -532,11 +620,98 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         cookieDescriptionEditText.setText("");
         cookiePriceEditText.setText("");
         cookieQuantityEditText.setText("");
-        cookieTypeSpinner.setSelection(1); //Select "Sweet" cookie type
+        cookieTypeSpinner.setSelection(0); //Select "Sweet" cookie type
         cookieSupplierNameEditText.setText("");
         cookieSupplierPhoneNrEditText.setText("");
         cookieSupplierEmailEditText.setText("");
 
     }
+
+    /*
+     * Show a dialog that warns the user there are unsaved changes that will be lost
+     * if they continue leaving the editor.
+     * @param discardButtonClickListener is the click listener for what to do when
+     * the user confirms they want to discard their changes
+     */
+    private void showUnsavedChangesDialog(
+            DialogInterface.OnClickListener discardButtonClickListener) {
+        /* Create an AlertDialog.Builder and set the message, and click listeners
+         * for the positive and negative buttons on the dialog.
+         * Changing the color of the message (with issues) from:
+         * https://stackoverflow.com/questions/44618542/how-to-change-the-color-of-an-alertdialog-message
+         */
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                /* The User clicked the "Keep editing" button, so dismiss the dialog
+                 * and continue editing the cookie.
+                */
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    //Prompt the user to confirm that they want to delete this cookie.
+    private void showDeleteConfirmationDialog() {
+        /* Create an AlertDialog.Builder and set the message, and click listeners
+         * for the positive and negative buttons on the dialog.
+         */
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //The user clicked the "Delete" button, so delete the cookie
+                deleteCookie();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                /* User clicked the "Cancel" button, so dismiss the dialog
+                 *  and continue editing the cookie.
+                 */
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    //Perform the deletion of the cookie in the database.
+    private void deleteCookie() {
+        //Only perform the delete if this is an existing cookie.
+        if (currentCookieUri != null) {
+            /* Call the ContentResolver to delete the cookie at the given content URI.
+             * Pass in null for the selection and selection args because the currentCookieUri
+             * content URI already identifies the cookie that we want.
+             */
+            int rowsDeleted = getContentResolver().delete(currentCookieUri, null, null);
+            //Show a toast message depending on whether or not the delete was successful
+            if (rowsDeleted == 0) {
+                //There was an error with the delete
+                Toast.makeText(this, getString(R.string.editor_delete_cookie_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                //The delete was successful
+                Toast.makeText(this, getString(R.string.editor_delete_cookie_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //Close the activity
+        finish();
+    }
+
 
 }

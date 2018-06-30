@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.cookiejar.data.CookieJarContract;
@@ -75,14 +76,16 @@ public class CookieCursorAdapter extends CursorAdapter {
         String cookieQuantity = cursor.getString(quantityColumnIndex);
         String cookieTypeNumber = cursor.getString(typeColumnIndex);
 
-        //Turning the values 1 and 2 of the cookie type into "sweet" (1) or "savoury" (2)
+        /* Turning the values 1 and 2 of the cookie type into "sweet" (1) or "savoury" (2),
+         * as specified in the {@Link CookieJarContract}
+        */
         String cookieType = "";
         switch(cookieTypeNumber) {
             case "1":
-                cookieType = "Sweet";
+                cookieType = "Sweet cookies";
                 break;
             case "2":
-                cookieType = "Savoury";
+                cookieType = "Savoury cookies";
                 break;
         }
 

@@ -2,48 +2,156 @@
 <!-- Layout for a single list item in the list of cookies -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/card_style_background">
 
-    <TextView
-        android:id="@+id/cookie_name_list_item"
-        android:layout_width="wrap_content"
+    <!-- Cookie name and type -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"  />
+        android:orientation="vertical"
+        android:background="@drawable/beige_bg"
+        android:padding="@dimen/padding_card_style_bg">
 
+        <TextView
+            android:id="@+id/cookie_name_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cookie_regular"
+            android:textSize="@dimen/cookie_name_size"
+            android:textColor="@color/colorAccent"
+            tools:text="Cookie name"/>
+
+        <TextView
+            android:id="@+id/cookie_type_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/body_text"
+            android:layout_marginBottom="@dimen/general_space"
+            android:textColor="@color/colorAccent"
+            tools:text="Cookie type"/>
+
+        <ImageView
+            android:id="@+id/cookie_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/savoury_cookie_picture"/>
+
+    </LinearLayout>
+
+    <!-- Cookie description -->
     <TextView
         android:id="@+id/cookie_description_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        android:textSize="@dimen/body_text"
+        android:textColor="@color/colorAccent"
+        android:paddingLeft="@dimen/padding_card_style_bg"
+        android:paddingRight="@dimen/padding_card_style_bg"
+        android:layout_marginTop="@dimen/margin_top_cookie_description"
+        tools:text="Cookie description"/>
 
-    <TextView
-        android:id="@+id/cookie_price_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
 
-    <TextView
-        android:id="@+id/cookie_quantity_list_item"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/general_space">
 
-    <TextView
-        android:id="@+id/cookie_type_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_bottom_cookie_quantity">
+
+            <!-- Cookie price -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_card_style_bg"
+                android:paddingRight="@dimen/padding_card_style_bg"
+                android:layout_marginTop="@dimen/margin_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/price_list_item"
+                    android:textSize="@dimen/body_text"
+                    android:textColor="@color/colorAccent"/>
+
+                <TextView
+                    android:id="@+id/cookie_price_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/special_info"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    tools:text="1.50"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/currency_unit_list_item"
+                    android:textSize="@dimen/special_info"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <!-- Cookie quantity -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_card_style_bg"
+                android:paddingRight="@dimen/padding_card_style_bg"
+                android:layout_marginTop="@dimen/margin_top_cookie_quantity">
+
+                <TextView
+                    android:id="@+id/cookie_quantity_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="@dimen/special_info"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    tools:text="25"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/left_in_stock_list_item"
+                    android:textSize="@dimen/body_text"
+                    android:textColor="@color/colorAccent"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Buy me button -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/cookie_regular"
+            android:textSize="@dimen/button_text_size"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:text="Buy me"/>
+
+    </LinearLayout>
 
 </LinearLayout>

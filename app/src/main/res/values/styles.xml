@@ -2,14 +2,12 @@
 
     <!-- Main app style -->
     <style name="MyAppTheme" parent="@style/AppTheme">
-        <item name="android:textColor">@color/colorAccent</item> <!-- text color in the whole app
-        doesn't work :/-->
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <!-- For the nav drawer
         From: https://medium.com/@ssaurel/implement-a-navigation-drawer-
-        with-a-toolbar-on-android-m-68162f13d220
-        and
+        with-a-toolbar-on-android-m-68162f13d220 and
         https://www.murrayc.com/permalink/2014/10/28/android-changing-the-toolbars-
         text-color-and-overflow-icon-color/-->
 
@@ -78,6 +76,12 @@
         <item name="android:paddingRight">@dimen/padding_styles</item>
         <item name="android:paddingTop">@dimen/padding_styles</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <!-- Style for the dialog alerting the user about unsaved changes - NO FUNCIONA -->
+    <style name="DialogStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">#f00</item> <!-- Color of the buttons (discard/keep editing) -->
+        <item name="android:textColorPrimary">#000</item> <!-- Color of the question -->
     </style>
 
 </resources>

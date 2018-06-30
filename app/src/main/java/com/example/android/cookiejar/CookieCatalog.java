@@ -8,6 +8,7 @@ package com.example.android.cookiejar;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,6 +18,8 @@ import android.support.design.widget.NavigationView;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.SimpleCursorAdapter;
 import android.support.v4.view.GravityCompat;
@@ -100,7 +103,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                 //Set the data URI on the data field of the intent
                 intent.setData(currentCookieUri);
 
-                //Launch the {@link EditorActivity} to display the data for the current pet
+                //Launch the {@link EditorActivity} to display the data for the current cookie
                 startActivity(intent);
             }
         });
@@ -127,19 +130,18 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
+                        //Set item as selected to persist highlight
                         menuItem.setChecked(true);
-                        // close drawer when item is tapped
+                        //Close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
+                        /* Add code here to update the UI based on the item selected.
+                         * For example, swap UI fragments here
+                         */
                         switch (menuItem.getItemId()) {
 
                             //Respond to a click on the menu options
                             case R.id.nav_catalog:
-                                /*Toast.makeText(CookieCatalog.this, "Go to shop/All inventory coming soon",
-                                        Toast.LENGTH_SHORT).show();*/
                                 Intent intentCatalog = new Intent(CookieCatalog.this, CookieCatalog.class);
                                 startActivity(intentCatalog);
                                 return true;
@@ -155,8 +157,6 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                                 return true;
 
                             case R.id.nav_about:
-                                /*Toast.makeText(CookieCatalog.this, "About coming soon",
-                                        Toast.LENGTH_SHORT).show();*/
                                 Intent intentAbout = new Intent(CookieCatalog.this, About.class);
                                 startActivity(intentAbout);
                                 return true;
@@ -183,10 +183,11 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_PHONE_NR, "12345678");
         cookieValues.put(CookieEntry.COOKIE_SUPPLIER_EMAIL, "yo@yo.com");
 
-        // Insert a new row for a cookie into the provider using the ContentResolver.
-        // Use the {@link CookieEntry#CONTENT_URI} to indicate that we want to insert
-        // into the cookiejar database table.
-        // Receive the new content URI that will allow us to access Toto's data in the future.
+        /* Insert a new row for a cookie into the provider using the ContentResolver.
+         * Use the {@link CookieEntry#CONTENT_URI} to indicate that we want to insert
+         * into the cookiejar database table.
+         * Receive the new content URI that will allow us to access the cookie data in the future.
+         */
         Uri newUri = getContentResolver().insert(CookieEntry.CONTENT_URI, cookieValues);
 
         //Toast message
@@ -214,9 +215,10 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                 insertCookie();
                 return true;
 
-            //Respond to a click on the "Delete all entries" menu option
-            case R.id.action_delete_all_entries:
-                Toast.makeText(this, "Coming soon - Delete all entries", Toast.LENGTH_SHORT).show();
+            //Respond to a click on the "Delete all cookies" menu option
+            case R.id.action_delete_all_cookies:
+                //Asking the user to confirm the deletion
+                showDeleteConfirmationDialog();
                 return true;
 
             //Open the drawer when the hamburger menu icon is tapped
@@ -265,4 +267,40 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         cookieCursorAdapter.swapCursor(null);
 
     }
+
+    //Helper method to delete all cookies in the database.
+    private void deleteAllCookies() {
+        int rowsDeleted = getContentResolver().delete(CookieEntry.CONTENT_URI, null, null);
+        Log.v("CookieCatalog", "Cookie deleted: " + rowsDeleted);
+    }
+
+    //Prompt the user to confirm that they want to delete all the cookies.
+    private void showDeleteConfirmationDialog() {
+        /* Create an AlertDialog.Builder and set the message, and click listeners
+         * for the positive and negative buttons on the dialog.
+         */
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_all_cookies);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //The user clicked the "Delete" button, so delete all the cookies
+                deleteAllCookies();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                /* User clicked the "Cancel" button, so dismiss the dialog
+                 *  and continue editing the cookie.
+                 */
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

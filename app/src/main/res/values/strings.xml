@@ -37,7 +37,7 @@
 
     <!-- Strings used in menu_cookie_catalog.xml -->
     <string name="insert_dummy_data">Insert dummy data</string>
-    <string name="delete_all_entries">Delete all entries</string>
+    <string name="delete_all_cookies">Delete all cookies</string>
 
     <!-- String used in the toast when inserting dummy data -->
     <string name="dummy_data_saved_in_db">Cookie saved: Ballerina</string>
@@ -84,4 +84,31 @@
     <string name="empty_view_no_data1">Oh no! We ran out of cookies.</string>
     <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
 
+    <!-- Dialog messages when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current cookie was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_cookie_successful">Cookie deleted</string>
+
+    <!-- Toast message in editor when current cookie has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_cookie_failed">Error with deleting cookie</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current cookie [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog">Delete this cookie?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current cookie [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current cookie [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+    <!-- Dialog message to ask the user to confirm deleting all the cookies [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_all_cookies">Delete all cookies?</string>
+
+    <!-- Labels used in cookie_list_item.xml -->
+    <string name="price_list_item">Price:\u0020</string>
+    <string name="currency_unit_list_item">\u0020SEK/unit</string>
+    <string name="left_in_stock_list_item">\u0020left in stock</string>
 </resources>

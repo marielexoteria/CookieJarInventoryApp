@@ -22,7 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_top_from_actionbar"
-            android:padding="@dimen/margin_horizontal"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:dividerHeight="10dp"
             android:textColor="@color/textColor" />
 
         <!-- Empty view for the list -->
@@ -61,6 +63,11 @@
                 android:textColor="@color/textColorHintTexts"/>
         </RelativeLayout>
 
+
+        <!-- Issue with the FAB icon showing smaller solved with
+        the help of https://stackoverflow.com/questions/27484126/
+        adjust-icon-size-of-floating-action-button-fab
+        (scaleType and fabSize)-->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -71,10 +78,6 @@
             android:src="@drawable/fab"
             android:scaleType="center"
             app:fabSize="normal"/>
-        <!-- Issue with the FAB icon showing smaller solved with
-        the help of https://stackoverflow.com/questions/27484126/
-        adjust-icon-size-of-floating-action-button-fab
-        (scaleType and fabSize)-->
 
         <include layout="@layout/toolbar" />
 
@@ -82,8 +85,14 @@
 
 
     <!-- Container for contents of drawer -
-    use NavigationView to make configuration easier -->
+    use NavigationView to make configuration easier.
+     Issues with the color of text on state = pressed
+     thanks to https://stackoverflow.com/questions/35977637/
+     how-to-change-the-text-color-of-checked-navigation
+     -view-item-in-android-->
     <android.support.design.widget.NavigationView
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/colorAccent"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
