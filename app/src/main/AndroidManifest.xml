@@ -38,6 +38,17 @@
                 android:value=".CookieCatalog" />
         </activity>
 
+        <activity
+            android:name=".CookieDetails"
+            android:label="Cookie Details"
+            android:parentActivityName=".CookieCatalog">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CookieCatalog" />
+        </activity>
+
         <provider
             android:name=".data.CookieJarProvider"
             android:authorities="com.example.android.cookiejar"

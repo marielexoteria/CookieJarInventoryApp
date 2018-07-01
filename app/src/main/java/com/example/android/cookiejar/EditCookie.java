@@ -3,12 +3,10 @@ package com.example.android.cookiejar;
 /* Toolbar implementation code taken from https://medium.com/@ssaurel/implement-a-navigation-
  drawer-with-a-toolbar-on-android-m-68162f13d220 */
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -19,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -35,11 +32,6 @@ import android.widget.Toast;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
-import static com.example.android.cookiejar.data.CookieJarContract.CookieEntry.COOKIE_TYPE_SWEET;
 
 /**
  * Allows user to add and edit cookies.
@@ -102,7 +94,9 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     //Variables needed to extract the quantity of cookies and for the increment/decrement methods
     String quantityString;
     int quantity = 0;
-    Button moreCookiesButton, fewerCookiesButton;
+
+    //Buy me button
+    //final Button buyMeButton = (Button) findViewById(R.id.buy_me_button);
 
     /* Variable needed to warn the user about unsaved changes.
      * The variable will check whether the cookie was changed or not.
@@ -126,6 +120,10 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cookie);
+
+        //Attaching the more and fewer cookies buttons to check when the user adds or subtract
+        Button moreCookiesButton = (Button) findViewById(R.id.more_cookies);
+        Button fewerCookiesButton = (Button) findViewById(R.id.fewer_cookies);
 
         /* Examine the intent that was used to launch this activity, in order to figure out
          * if we're creating a new cookie or editing an existing one
@@ -180,39 +178,72 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         cookieSupplierPhoneNrEditText.setOnTouchListener(touchListener);
         cookieSupplierEmailEditText.setOnTouchListener(touchListener);
 
-
-        //Connecting the buttons to add or subtract cookies
+        //Connecting the buttons to change the number of cookies in stock
         moreCookiesButton = (Button) findViewById(R.id.more_cookies);
         fewerCookiesButton = (Button) findViewById(R.id.fewer_cookies);
 
-        //Changing the number of cookies accordingly
-        moreCookies();
-        fewerCookies();
-
         //Setting up the dropdown list with the 2 cookie type options (sweet/savoury)
         setupSpinner();
-    }
 
-    //Increasing the number of cookies
-    public void moreCookies() {
+        //Increasing the number of cookies
         moreCookiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 quantityString = cookieQuantityEditText.getText().toString();
-                quantity = Integer.parseInt(quantityString);
 
-                //Increase the number of cookies by one
-                quantity += 1;
+                if (TextUtils.isEmpty(quantityString)) {
+                    //Giving a "default" value, since when adding a cookie we check for empty fields
+                    quantity = 0;
+                } else {
+                    //Convert to integer
+                    quantity = Integer.parseInt(quantityString);
 
-                //Display the new number
-                quantityString = Integer.toString(quantity);
-                cookieQuantityEditText.setText(quantityString);
+                    //Increase the number of cookies by one
+                    quantity += 1;
+
+                    //Display the new number
+                    quantityString = Integer.toString(quantity);
+                    cookieQuantityEditText.setText(quantityString);
+                    //buyMeButton.setEnabled(true); //- NO FUNCIONA
+                }
             }
         });
+
+        //Decreasing the number of cookies
+        fewerCookiesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quantityString = cookieQuantityEditText.getText().toString();
+                if (TextUtils.isEmpty(quantityString)) {
+                    //Giving a "default" value, since when adding a cookie we check for empty fields
+                    quantity = 0;
+                } else {
+                    //Convert to integer
+                    quantity = Integer.parseInt(quantityString);
+                }
+
+                if (quantity > 0) {
+                    //Decrease the number of cookies by one
+                    quantity -= 1;
+
+                    //Display the new number
+                    quantityString = Integer.toString(quantity);
+                    cookieQuantityEditText.setText(quantityString);
+                } else {
+                    /* getBaseContext() idea for the toast from
+                     * https://stackoverflow.com/questions/14619234/how-to-make-toast-message-when-button-is-clicked
+                     */
+                    Toast.makeText(getBaseContext(), getString(R.string.cookie_quantity_invalid_number),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+
     //Decreasing the number of cookies
-    public void fewerCookies() {
+    /*public void fewerCookies() {
         fewerCookiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,7 +261,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
                     /* getBaseContext() idea for the toast from
                      * https://stackoverflow.com/questions/14619234/how-to-make-toast-message-when-button-is-clicked
                      */
-                    Toast.makeText(getBaseContext(), getString(R.string.cookie_quantity_negative_number),
+                 /*   Toast.makeText(getBaseContext(), getString(R.string.cookie_quantity_negative_number),
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -631,18 +662,18 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
      * Show a dialog that warns the user there are unsaved changes that will be lost
      * if they continue leaving the editor.
      * @param discardButtonClickListener is the click listener for what to do when
-     * the user confirms they want to discard their changes
+     * the user confirms they want to leave their changes
      */
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
         /* Create an AlertDialog.Builder and set the message, and click listeners
          * for the positive and negative buttons on the dialog.
-         * Changing the color of the message (with issues) from:
+         * Changing the color of the message (with issues regarding the size of the dialog) from:
          * https://stackoverflow.com/questions/44618542/how-to-change-the-color-of-an-alertdialog-message
          */
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
-        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setPositiveButton(R.string.leave, discardButtonClickListener);
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 /* The User clicked the "Keep editing" button, so dismiss the dialog
@@ -656,6 +687,13 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
         //Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        /* Workaround until I find a better solution. Setting width and height for the dialog box
+         * because I want to style the text (otherwise the question and the CTA buttons have the
+         * same color and it doesn't provide a good user experience.
+         * Answer from: https://stackoverflow.com/questions/4406804/how-to-control-the
+         * -width-and-height-of-the-default-alert-dialog-in-android
+         */
+        alertDialog.getWindow().setLayout(600, 250);
         alertDialog.show();
     }
 
@@ -664,7 +702,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         /* Create an AlertDialog.Builder and set the message, and click listeners
          * for the positive and negative buttons on the dialog.
          */
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
         builder.setMessage(R.string.delete_dialog);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -685,6 +723,13 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
         //Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        /* Workaround until I find a better solution. Setting width and height for the dialog box
+         * because I want to style the text (otherwise the question and the CTA buttons have the
+         * same color and it doesn't provide a good user experience.
+         * Answer from: https://stackoverflow.com/questions/4406804/how-to-control-the
+         * -width-and-height-of-the-default-alert-dialog-in-android
+         */
+        alertDialog.getWindow().setLayout(550, 200);
         alertDialog.show();
     }
 

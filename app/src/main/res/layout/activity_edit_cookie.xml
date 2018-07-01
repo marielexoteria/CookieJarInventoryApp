@@ -1,275 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgroundColorWithTransparency"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <!-- Layout for the editor -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/edit_cookie"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundColorWithTransparency"
-        android:orientation="vertical"
-        tools:context=".EditCookie">
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar" />
 
-        <!-- Cookie info category -->
-        <TextView
-            style="@style/SectionLabelStyle"
-            android:text="@string/cookie_info" />
+        <!-- CardView tutorial from https://medium.com/@nileshsingh/
+        android-cardview-101-everything-you-should-know-5bbf1c873f5a,
+        inspired by https://discussions.udacity.com/t/solved-cannot
+        -edit-cookie-after-adding-the-buy-me-button/820188 -->
 
-        <!-- Cookie name -->
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal"
-            android:paddingTop="@dimen/margin_horizontal">
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_marginTop="@dimen/margin_top_cardview"
+            android:layout_marginLeft="@dimen/margin_horizontal"
+            android:layout_marginRight="@dimen/margin_horizontal"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:cardMaxElevation="@dimen/max_card_elevation"
+            app:contentPaddingBottom="@dimen/padding_bottom_content_about">
 
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/cookie_name" />
-
-            <EditText
-                android:id="@+id/edit_cookie_name"
-                style="@style/EditorFieldStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/cookie_name_hint"
-                android:inputType="textCapSentences" />
-
-        </LinearLayout>
-
-        <!-- Cookie description -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/cookie_description" />
-
-            <EditText
-                android:id="@+id/edit_cookie_description"
-                style="@style/EditorFieldStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/cookie_description_hint"
-                android:inputType="textCapSentences|textMultiLine" />
-
-        </LinearLayout>
-
-        <!-- Cookie price -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/cookie_price" />
-
-            <!-- Cookie price field -->
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_left_input_text">
-
-                <EditText
-                    android:id="@+id/edit_cookie_price"
-                    style="@style/EditorFieldStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/cookie_price_hint"
-                    android:inputType="numberDecimal" />
-
-                <!-- Chosen currency (SEK) -->
-                <TextView
-                    android:id="@+id/label_weight_units"
-                    style="@style/EditorUnitsStyle"
-                    android:text="@string/currency" />
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!-- Cookie Quantity -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/cookie_quantity" />
-
-            <Button
-                android:id="@+id/fewer_cookies"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="@dimen/button_size"
-                android:layout_marginRight="@dimen/margin_buttons"
-                android:layout_weight="0"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:text="@string/button_fewer_cookies"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_button_labels" />
-
-            <EditText
-                android:id="@+id/edit_cookie_quantity"
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:hint="@string/cookie_quantity_hint"
-                android:inputType="number" />
-
-            <Button
-                android:id="@+id/more_cookies"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="@dimen/button_size"
-                android:layout_marginLeft="@dimen/margin_buttons"
-                android:layout_weight="0"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:text="@string/button_more_cookies"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_button_labels" />
-
-        </LinearLayout>
-
-        <!-- Cookie type -->
-        <LinearLayout
-            android:id="@+id/container_cookie_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal"
-            android:paddingTop="@dimen/margin_horizontal">
-
-            <!-- Label -->
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/cookie_type"
-                android:layout_gravity="center"/>
-
-            <!-- Input field -->
             <LinearLayout
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- Type drop-down spinner -->
-                <Spinner
-                    android:id="@+id/spinner_cookie_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/layout_height_spinner"
-                    android:paddingRight="@dimen/padding_right_spinner"
-                    android:spinnerMode="dropdown" />
+                <!-- Cookie info category -->
+                <TextView
+                    style="@style/SectionLabelStyle"
+                    android:text="@string/cookie_info" />
+
+                <!-- Cookie name -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/cookie_name" />
+
+                    <EditText
+                        android:id="@+id/edit_cookie_name"
+                        style="@style/EditorFieldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/cookie_name_hint"
+                        android:inputType="textCapSentences" />
+
+                </LinearLayout>
+
+                <!-- Cookie description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/cookie_description" />
+
+                    <EditText
+                        android:id="@+id/edit_cookie_description"
+                        style="@style/EditorFieldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:hint="@string/cookie_description_hint"
+                        android:inputType="textCapSentences|textMultiLine" />
+
+                </LinearLayout>
+
+                <!-- Cookie price -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/cookie_price" />
+
+                    <!-- Cookie price field -->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/padding_left_input_text">
+
+                        <EditText
+                            android:id="@+id/edit_cookie_price"
+                            style="@style/EditorFieldStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/cookie_price_hint"
+                            android:inputType="numberDecimal" />
+
+                        <!-- Chosen currency (SEK) -->
+                        <TextView
+                            android:id="@+id/label_weight_units"
+                            style="@style/EditorUnitsStyle"
+                            android:text="@string/currency" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!-- Cookie Quantity -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/cookie_quantity" />
+
+                    <Button
+                        android:id="@+id/fewer_cookies"
+                        android:layout_marginRight="@dimen/margin_buttons"
+                        android:layout_weight="0"
+                        android:text="@string/button_fewer_cookies"
+                        style="@style/CookieQuantity"/>
+
+                    <EditText
+                        android:id="@+id/edit_cookie_quantity"
+                        android:layout_width="@dimen/zero_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="@string/cookie_quantity_hint"
+                        android:inputType="number" />
+
+                    <Button
+                        android:id="@+id/more_cookies"
+                        android:layout_marginLeft="@dimen/margin_buttons"
+                        android:layout_weight="0"
+                        android:text="@string/button_more_cookies"
+                        style="@style/CookieQuantity"/>
+
+                </LinearLayout>
+
+                <!-- Cookie type -->
+                <LinearLayout
+                    android:id="@+id/container_cookie_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal"
+                    android:paddingTop="@dimen/margin_horizontal">
+
+                    <!-- Label -->
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/cookie_type"
+                        android:layout_gravity="center"/>
+
+                    <!-- Input field -->
+                    <LinearLayout
+                        android:layout_width="@dimen/zero_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <!-- Type drop-down spinner -->
+                        <Spinner
+                            android:id="@+id/spinner_cookie_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/layout_height_spinner"
+                            android:paddingRight="@dimen/padding_right_spinner"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Supplier info category -->
+                <TextView
+                    style="@style/SectionLabelStyle"
+                    android:text="@string/supplier_info" />
+
+                <!-- Supplier name -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal"
+                    android:paddingTop="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/supplier_name" />
+
+                    <EditText
+                        android:id="@+id/edit_cookie_supplier_name"
+                        style="@style/EditorFieldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/supplier_name_hint"
+                        android:inputType="textCapWords" />
+
+                </LinearLayout>
+
+                <!-- Supplier phone -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal"
+                    android:paddingTop="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/supplier_phone_nr" />
+
+                    <EditText
+                        android:id="@+id/edit_cookie_supplier_phone"
+                        style="@style/EditorFieldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/supplier_phone_nr_hint"
+                        android:inputType="number" />
+
+                </LinearLayout>
+
+                <!-- Supplier e-mail -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_horizontal"
+                    android:paddingRight="@dimen/margin_horizontal"
+                    android:paddingTop="@dimen/margin_horizontal">
+
+                    <TextView
+                        style="@style/CategoryStyle"
+                        android:text="@string/supplier_email" />
+
+                    <EditText
+                        android:id="@+id/edit_cookie_supplier_email"
+                        style="@style/EditorFieldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/supplier_email_hint"
+                        android:inputType="textEmailAddress" />
+
+                </LinearLayout>
+
             </LinearLayout>
-        </LinearLayout>
 
-
-        <!-- Supplier info category -->
-        <TextView
-            style="@style/SectionLabelStyle"
-            android:text="@string/supplier_info" />
-
-        <!-- Supplier name -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal"
-            android:paddingTop="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/supplier_name" />
-
-            <EditText
-                android:id="@+id/edit_cookie_supplier_name"
-                style="@style/EditorFieldStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/supplier_name_hint"
-                android:inputType="textCapWords" />
-
-        </LinearLayout>
-
-        <!-- Supplier phone -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal"
-            android:paddingTop="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/supplier_phone_nr" />
-
-            <EditText
-                android:id="@+id/edit_cookie_supplier_phone"
-                style="@style/EditorFieldStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/supplier_phone_nr_hint"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <!-- Supplier e-mail -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_horizontal"
-            android:paddingRight="@dimen/margin_horizontal"
-            android:paddingTop="@dimen/margin_horizontal">
-
-            <TextView
-                style="@style/CategoryStyle"
-                android:text="@string/supplier_email" />
-
-            <EditText
-                android:id="@+id/edit_cookie_supplier_email"
-                style="@style/EditorFieldStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/supplier_email_hint"
-                android:inputType="textEmailAddress" />
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
-    <!-- Container for contents of drawer -
-        use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view" />
-
-</android.support.v4.widget.DrawerLayout>
-
+</ScrollView>

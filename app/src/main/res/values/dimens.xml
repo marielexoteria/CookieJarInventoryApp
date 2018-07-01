@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Values used in all the layouts -->
+    <dimen name="margin_horizontal">6dp</dimen>
+
     <!-- Values used in activity_cookie_catalog.xml -->
-    <dimen name="margin_horizontal">16dp</dimen>
-    <dimen name="margin_vertical">16dp</dimen>
+    <dimen name="divider_height">16dp</dimen>
+    <dimen name="margin_vertical_no_cookies">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_top_from_actionbar">70dp</dimen>
     <dimen name="section_label_size">16sp</dimen>
 
     <!-- Values used in activity_edit_cookie.xml -->
+    <dimen name="margin_horizontal_forms">16dp</dimen>
     <dimen name="padding_left_input_text">4dp</dimen>
     <dimen name="padding_right_spinner">16dp</dimen>
     <dimen name="layout_height_spinner">48dp</dimen>
@@ -17,16 +21,23 @@
     <dimen name="text_size_edittext">15sp</dimen>
     <dimen name="zero_dp">0dp</dimen>
 
-    <!-- Values needed for styling the cookie data in cookie_list_item.xml -->
-    <dimen name="padding_card_style_bg">10dp</dimen>
-    <dimen name="general_space">10dp</dimen>
-    <dimen name="cookie_name_size">30sp</dimen>
-    <dimen name="body_text">14sp</dimen>
-    <dimen name="special_info">16sp</dimen>
+    <!-- Values needed for styles in cookie_list_item.xml, about.xml and cookie_details.xml -->
+    <dimen name="corner_radius">2dp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
+    <dimen name="max_card_elevation">2dp</dimen>
+    <dimen name="card_padding_bottom">20dp</dimen>
+
+    <!-- Values used in cookie_list_item.xml -->
+    <dimen name="inner_padding_card">10dp</dimen>
+    <dimen name="margin_horizontal_content">10dp</dimen>
     <dimen name="margin_top_cookie_description">20dp</dimen>
+    <dimen name="margin_top_cookie_price">16dp</dimen>
+    <dimen name="margin_bottom_cookie_type">10dp</dimen>
+    <dimen name="body_text">14sp</dimen>
+    <dimen name="special_info_text">16sp</dimen>
     <dimen name="margin_top_cookie_quantity">5dp</dimen>
-    <dimen name="margin_bottom_cookie_quantity">40dp</dimen>
-    <dimen name="button_text_size">22sp</dimen>
+    <dimen name="margin_bottom_cookie_quantity">20dp</dimen>
+    <dimen name="buy_me_button_text_size">22sp</dimen>
 
     <!-- Values used in styles.xml -->
     <dimen name="padding_styles">16dp</dimen>
@@ -38,4 +49,14 @@
     <!-- Dimensions used in drawable/card_style_background.xml -->
     <dimen name="border_radius_shape">2dp</dimen>
     <dimen name="border_radius_shadow">2.5dp</dimen>
+
+    <!-- Values used in about.xml -->
+    <dimen name="padding_content_about">10dp</dimen>
+    <dimen name="margin_top_content_about">10dp</dimen>
+    <dimen name="padding_bottom_content_about">20dp</dimen>
+    <dimen name="footer_margin_vertical">5dp</dimen>
+    <dimen name="footer_text_size">12sp</dimen>
+
+    <!-- Values used in about.xml, activity_edit_cookie.xml and cookie_details.xml -->
+    <dimen name="margin_top_cardview">16dp</dimen>
 </resources>

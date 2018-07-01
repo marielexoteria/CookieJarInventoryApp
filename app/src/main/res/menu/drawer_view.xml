@@ -11,23 +11,39 @@ drawer-with-a-toolbar-on-android-m-68162f13d220
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/main_options"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_catalog"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/icon_cookie_catalog"
             android:title="@string/menu_item_1"/>
         <item
             android:id="@+id/nav_add_cookie"
             android:icon="@drawable/icon_add_cookie"
             android:title="@string/menu_item_2" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/icon_settings"
-            android:title="@string/menu_item_3" />
+    </group>
+
+    <group
+        android:id="@+id/secondary_options"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/icon_about"
             android:title="@string/menu_item_4" />
+
+        <item
+            android:id="@+id/nav_details"
+            android:icon="@drawable/icon_about"
+            android:title="Cookie details" />
     </group>
 
 </menu>
+
+<!--
+Removed for now:
+       <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/icon_settings"
+            android:title="@string/menu_item_3" />
+-->

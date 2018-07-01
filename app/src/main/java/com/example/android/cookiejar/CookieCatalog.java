@@ -21,7 +21,6 @@ import android.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.AdapterView;
-import android.widget.SimpleCursorAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -93,6 +92,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //Create new intent to go to {@link EditCookie}
                 Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
+                //Intent intent = new Intent(CookieCatalog.this, CookieDetails.class);
 
                 //Form the content URI that represents the specific cookie that was clicked on
                 //by appending the "id" (passed as input to this method) onto the
@@ -151,14 +151,15 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                                 startActivity(intentAddCookie);
                                 return true;
 
-                            case R.id.nav_settings:
-                                Toast.makeText(CookieCatalog.this, "Settings coming soon",
-                                        Toast.LENGTH_SHORT).show();
-                                return true;
-
                             case R.id.nav_about:
                                 Intent intentAbout = new Intent(CookieCatalog.this, About.class);
                                 startActivity(intentAbout);
+                                return true;
+
+                            //BORRAR CUANDO PUEDA ENLAZAR COOKIE CATALOG > COOKIE DETAILS > EDIT COOKIE
+                            case R.id.nav_details:
+                                Intent intentDetails = new Intent(CookieCatalog.this, CookieDetails.class);
+                                startActivity(intentDetails);
                                 return true;
                         }
 
@@ -211,7 +212,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         switch (item.getItemId()) {
 
             //Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
+            case R.id.action_insert_demo_data:
                 insertCookie();
                 return true;
 
@@ -279,7 +280,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         /* Create an AlertDialog.Builder and set the message, and click listeners
          * for the positive and negative buttons on the dialog.
          */
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
         builder.setMessage(R.string.delete_dialog_all_cookies);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -300,6 +301,13 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
 
         //Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        /* Workaround until I find a better solution. Setting width and height for the dialog box
+         * because I want to style the text (otherwise the question and the CTA buttons have the
+         * same color and it doesn't provide a good user experience.
+         * Answer from: https://stackoverflow.com/questions/4406804/how-to-control-the
+         * -width-and-height-of-the-default-alert-dialog-in-android
+         */
+        alertDialog.getWindow().setLayout(550, 200);
         alertDialog.show();
     }
 

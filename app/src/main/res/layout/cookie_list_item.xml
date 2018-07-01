@@ -6,106 +6,115 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/card_style_background">
+    android:background="@drawable/card_style_background"
+    android:paddingBottom="@dimen/card_padding_bottom"
+    android:descendantFocusability="blocksDescendants">
+    <!-- blocksDescendants allows a user to tap on the list item
+    to see details about the cookie, and to click on Buy me to buy
+    a cookie. From: https://discussions.udacity.com/t/solved-cannot
+    -edit-cookie-after-adding-the-buy-me-button/820188 -->
 
-    <!-- Cookie name and type -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/beige_bg"
-        android:padding="@dimen/padding_card_style_bg">
+        android:orientation="horizontal"
+        android:background="@drawable/beige_bg">
 
-        <TextView
-            android:id="@+id/cookie_name_list_item"
+        <!-- Cookie name and type -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/cookie_regular"
-            android:textSize="@dimen/cookie_name_size"
-            android:textColor="@color/colorAccent"
-            tools:text="Cookie name"/>
+            android:orientation="vertical"
+            android:padding="@dimen/inner_padding_card"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/cookie_type_list_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textSize="@dimen/body_text"
-            android:layout_marginBottom="@dimen/general_space"
-            android:textColor="@color/colorAccent"
-            tools:text="Cookie type"/>
+            <TextView
+                android:id="@+id/cookie_name_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MainHeadline"
+                tools:text="Cookie name"/>
 
+            <TextView
+                android:id="@+id/cookie_type_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:layout_marginBottom="@dimen/margin_bottom_cookie_type"
+                android:textColor="@color/colorAccent"
+                tools:text="Cookie type"/>
+
+        </LinearLayout>
+
+        <!-- Cookie picture -->
         <ImageView
             android:id="@+id/cookie_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:src="@drawable/savoury_cookie_picture"/>
+            android:layout_marginRight="@dimen/inner_padding_card"
+            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
+            tools:src="@drawable/sweet_cookies"/>
+
 
     </LinearLayout>
+
+
 
     <!-- Cookie description -->
     <TextView
         android:id="@+id/cookie_description_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textSize="@dimen/body_text"
-        android:textColor="@color/colorAccent"
-        android:paddingLeft="@dimen/padding_card_style_bg"
-        android:paddingRight="@dimen/padding_card_style_bg"
+        android:layout_marginLeft="@dimen/margin_horizontal_content"
+        android:layout_marginRight="@dimen/margin_horizontal_content"
         android:layout_marginTop="@dimen/margin_top_cookie_description"
-        tools:text="Cookie description"/>
+        android:fontFamily="sans-serif"
+        android:textColor="@color/colorAccent"
+        tools:text="Cookie description" />
 
-
+    <!-- Price, quantity, buy me -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingRight="@dimen/general_space">
+        android:layout_marginLeft="@dimen/margin_horizontal_content"
+        android:layout_marginRight="@dimen/margin_horizontal_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_bottom_cookie_quantity">
+            android:layout_weight="1">
 
             <!-- Cookie price -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/padding_card_style_bg"
-                android:paddingRight="@dimen/padding_card_style_bg"
-                android:layout_marginTop="@dimen/margin_vertical">
+                android:layout_marginTop="@dimen/margin_top_cookie_price"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/price_list_item"
-                    android:textSize="@dimen/body_text"
                     android:textColor="@color/colorAccent"/>
 
                 <TextView
                     android:id="@+id/cookie_price_list_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
                     android:layout_weight="1"
-                    android:textSize="@dimen/special_info"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    tools:text="1.50"/>
+                    style="@style/SpecialInfoText"
+                    tools:text="1.50" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/currency_unit_list_item"
-                    android:textSize="@dimen/special_info"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"/>
+                    style="@style/SpecialInfoText"/>
 
             </LinearLayout>
 
@@ -113,19 +122,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/padding_card_style_bg"
-                android:paddingRight="@dimen/padding_card_style_bg"
-                android:layout_marginTop="@dimen/margin_top_cookie_quantity">
+                android:layout_marginBottom="@dimen/margin_bottom_cookie_quantity"
+                android:layout_marginTop="@dimen/margin_top_cookie_quantity"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/cookie_quantity_list_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:textSize="@dimen/special_info"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
+                    style="@style/SpecialInfoText"
                     tools:text="25"/>
 
                 <TextView
@@ -133,7 +138,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/left_in_stock_list_item"
-                    android:textSize="@dimen/body_text"
                     android:textColor="@color/colorAccent"/>
             </LinearLayout>
 
@@ -141,16 +145,12 @@
 
         <!-- Buy me button -->
         <Button
+            android:id="@+id/buy_me_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="@color/colorAccent"
-            android:fontFamily="@font/cookie_regular"
-            android:textSize="@dimen/button_text_size"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:text="Buy me"/>
+            style="@style/BuyMeButton"
+            android:text="@string/buy_me_button_label"/>
 
     </LinearLayout>
 

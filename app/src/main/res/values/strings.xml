@@ -36,7 +36,7 @@
     <string name="currency">SEK</string>
 
     <!-- Strings used in menu_cookie_catalog.xml -->
-    <string name="insert_dummy_data">Insert dummy data</string>
+    <string name="insert_demo_data">Insert demo data</string>
     <string name="delete_all_cookies">Delete all cookies</string>
 
     <!-- String used in the toast when inserting dummy data -->
@@ -48,7 +48,7 @@
 
     <!-- Strings used in the nav drawer -->
     <string name="nav_drawer_title">Cookie Jar Inventory App</string>
-    <string name="menu_item_1">Cookie catalog</string>
+    <string name="menu_item_1">Buy cookies</string>
     <string name="menu_item_2">Add a cookie</string>
     <string name="menu_item_3">Settings</string>
     <string name="menu_item_4">About</string>
@@ -75,7 +75,7 @@
     <string name="supplier_email_empty">The cookie needs a supplier e-mail. Please enter one and try again :)</string>
 
     <!-- Error message in case of negative number in the cookie quantity -->
-    <string name="cookie_quantity_negative_number">There needs to be at least one cookie :)</string>
+    <string name="cookie_quantity_invalid_number">There needs to be at least one cookie :)</string>
 
     <!-- Error message in case of invalid e-mail -->
     <string name="invalid_email">The e-mail is invalid. Please check and try again :)</string>
@@ -85,8 +85,8 @@
     <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
 
     <!-- Dialog messages when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
-    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
-    <string name="discard">Discard</string>
+    <string name="unsaved_changes_dialog_msg">Leave without saving?</string>
+    <string name="leave">Leave</string>
     <string name="keep_editing">Keep Editing</string>
 
     <!-- Toast message in editor when current cookie was successfully deleted [CHAR LIMIT=NONE] -->
@@ -98,10 +98,10 @@
     <!-- Dialog message to ask the user to confirm deleting the current cookie [CHAR LIMIT=NONE] -->
     <string name="delete_dialog">Delete this cookie?</string>
 
-    <!-- Dialog button text for the option to confirm deleting the current cookie [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to confirm deleting the current cookie or all cookies [CHAR LIMIT=20] -->
     <string name="delete">Delete</string>
 
-    <!-- Dialog button text for the option to cancel deletion of the current cookie [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to cancel deletion of the current cookie or all cookies [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
     <!-- Dialog message to ask the user to confirm deleting all the cookies [CHAR LIMIT=NONE] -->
@@ -111,4 +111,25 @@
     <string name="price_list_item">Price:\u0020</string>
     <string name="currency_unit_list_item">\u0020SEK/unit</string>
     <string name="left_in_stock_list_item">\u0020left in stock</string>
+    <string name="buy_me_button_label">Buy me</string>
+
+    <!-- String used in menu_cookie_details.xml -->
+    <string name="edit_cookie">Edit cookie</string>
+
+    <!-- Strings used in about.xml -->
+    <string name="about_label">How Cookie Jar came about</string>
+    <string name="footer_text_part_1">Made with\u0020</string>
+    <string name="footer_text_part_2">\u0020by a cookie monster.</string>
+    <string name="about_content_paragraph_1">Cookies. They come in all varieties: butter cookies,
+        chocolate chip, Graham crackers, saltine crackers, digestive, with raisins, gingerbread&#8230;
+        \u0020the imagination is the limit!</string>
+    <string name="about_content_paragraph_2">As a child I looked forward to the weekly bake at home,
+        in which the house filled with the sweetest scents. I enjoyed gradually going from measuring
+        the dry ingredients to eventually baking my own batches of cookies.</string>
+    <string name="about_content_paragraph_3">Cookies and milk made doing tedious homework a more
+        pleasurable task. Alone as a snack or as part of an appetizer, cookies are meant to be
+        enjoyed to the fullest.</string>
+    <string name="about_content_paragraph_4">Cookie Jar is born out of the wish to keep the child
+        inside alive. All the cookies are personally vetted to provide the highest quality possible
+        at affordable prices. </string>
 </resources>
