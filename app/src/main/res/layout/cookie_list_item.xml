@@ -59,8 +59,6 @@
 
     </LinearLayout>
 
-
-
     <!-- Cookie description -->
     <TextView
         android:id="@+id/cookie_description_list_item"

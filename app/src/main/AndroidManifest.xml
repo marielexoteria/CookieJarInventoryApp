@@ -18,6 +18,17 @@
         </activity>
 
         <activity
+            android:name=".CookieDetails"
+            android:label="Cookie Details"
+            android:parentActivityName=".CookieCatalog">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CookieCatalog" />
+        </activity>
+
+        <activity
             android:name=".EditCookie"
             android:parentActivityName=".CookieCatalog">
 
@@ -30,17 +41,6 @@
         <activity
             android:name=".About"
             android:label="About"
-            android:parentActivityName=".CookieCatalog">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CookieCatalog" />
-        </activity>
-
-        <activity
-            android:name=".CookieDetails"
-            android:label="Cookie Details"
             android:parentActivityName=".CookieCatalog">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

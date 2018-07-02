@@ -91,8 +91,8 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
             //long id = id of the item in the ListView
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //Create new intent to go to {@link EditCookie}
-                Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
-                //Intent intent = new Intent(CookieCatalog.this, CookieDetails.class);
+                //Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
+                Intent intent = new Intent(CookieCatalog.this, CookieDetails.class);
 
                 //Form the content URI that represents the specific cookie that was clicked on
                 //by appending the "id" (passed as input to this method) onto the
@@ -154,12 +154,6 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                             case R.id.nav_about:
                                 Intent intentAbout = new Intent(CookieCatalog.this, About.class);
                                 startActivity(intentAbout);
-                                return true;
-
-                            //BORRAR CUANDO PUEDA ENLAZAR COOKIE CATALOG > COOKIE DETAILS > EDIT COOKIE
-                            case R.id.nav_details:
-                                Intent intentDetails = new Intent(CookieCatalog.this, CookieDetails.class);
-                                startActivity(intentDetails);
                                 return true;
                         }
 
@@ -245,10 +239,10 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         };
 
         //This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this, //Parent activity context
-                CookieEntry.CONTENT_URI,      //Provider content URI to query
-                cookieProjection,             //Columns to include in the resulting cursor
-                null,                //No selection clause
+        return new CursorLoader(this,  //Parent activity context
+                CookieEntry.CONTENT_URI,       //Provider content URI to query
+                cookieProjection,              //Columns to include in the resulting cursor
+                null,                 //No selection clause
                 null,             //No selection arguments
                 null                 //Default sort order
 

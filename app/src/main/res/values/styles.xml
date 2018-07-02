@@ -36,29 +36,33 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <!-- Style for the sections "Cookie info" and "Supplier info" (add a cookie or edit cookie) -->
+    <!-- Style for the main headlines (for ex. the cookie name, "About") -->
+    <style name="MainHeadline" parent="@style/AppTheme">
+        <item name="android:fontFamily">@font/cookie_regular</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Style for the sections "Cookie info" and "Supplier info" -->
     <style name="SectionLabelStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/cookie_regular</item>
         <item name="android:textSize">@dimen/section_label_size</item>
-        <item name="android:paddingLeft">@dimen/margin_horizontal</item>
         <item name="android:paddingTop">@dimen/margin_horizontal</item>
     </style>
 
-    <!-- Style for a category in "add a cookie" or "edit cookie" -->
-    <style name="CategoryStyle">
+    <!-- Style for a label in activity_edit_cookie.xml -->
+    <style name="LabelStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">@dimen/zero_dp</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:paddingRight">@dimen/padding_styles</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
 
-    <!-- Style for an EditText field in "add a cookie" or "edit cookie" -->
+    <!-- Style for an EditText field in activity_edit_cookie.xml -->
     <style name="EditorFieldStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
@@ -66,9 +70,10 @@
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:paddingLeft">@dimen/inner_padding_edittext</item>
     </style>
 
-    <!-- Style for the measurement units for an EditText field in "add a cookie" or "edit cookie" -->
+    <!-- Style for the measurement units for an EditText field in activity_edit_cookie.xml -->
     <style name="EditorUnitsStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
@@ -76,19 +81,6 @@
         <item name="android:paddingRight">@dimen/padding_styles</item>
         <item name="android:paddingTop">@dimen/padding_styles</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-    </style>
-
-    <!-- Style for the dialog alerting the user about unsaved changes -->
-    <style name="DialogStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColor">@color/colorAccent</item> <!-- Color of the buttons (leave/keep editing) -->
-        <item name="android:textColorPrimary">@color/textColorDialogQuestion</item> <!-- Color of the question -->
-    </style>
-
-    <!-- Style for the main headlines (for ex. the cookie name, "About") -->
-    <style name="MainHeadline" parent="@style/AppTheme">
-        <item name="android:fontFamily">@font/cookie_regular</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <!-- Style for the "Buy me" button -->
@@ -112,11 +104,18 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <!-- Style for the text such as "SEK/unit" and number of cookie sin stock -->
+    <!-- Style for the text such as "SEK/unit" and number of cookies in stock -->
     <style name="SpecialInfoText" parent="@style/AppTheme">
         <item name="android:textSize">@dimen/special_info_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
+    <!-- Style for the dialog alerting the user about unsaved changes -->
+    <style name="DialogStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/colorAccent</item> <!-- Color of the buttons (discard/keep editing) -->
+        <item name="android:textColorPrimary">@color/textColorDialogQuestion</item> <!-- Color of the question -->
+    </style>
+
 
 </resources>

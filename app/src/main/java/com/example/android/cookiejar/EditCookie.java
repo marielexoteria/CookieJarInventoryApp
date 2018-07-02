@@ -33,12 +33,14 @@ import android.widget.Toast;
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 
+import java.text.DecimalFormat;
+
 /**
  * Allows user to add and edit cookies.
  */
 public class EditCookie extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the cookie data loader */
+    //Identifier for the cookie data loader
     private static final int EXISTING_COOKIE_LOADER = 0;
 
     /**
@@ -141,7 +143,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
              */
             invalidateOptionsMenu();
 
-        } else {
+        } else { //We're editing an existing cookie
             //Existing cookie, so change the app bar title to "Edit cookie"
             setTitle(getString(R.string.app_bar_title_edit_cookie));
 
@@ -241,38 +243,6 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
 
     }
 
-
-    //Decreasing the number of cookies
-    /*public void fewerCookies() {
-        fewerCookiesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                quantityString = cookieQuantityEditText.getText().toString();
-                if (quantityString.isEmpty()) {
-                    quantity = 0;
-                } else {
-                    quantity = Integer.parseInt(quantityString);
-                }
-
-                if (quantity > 0) {
-                    //Decrease the number of cookies by one
-                    quantity -= 1;
-                } else {
-                    /* getBaseContext() idea for the toast from
-                     * https://stackoverflow.com/questions/14619234/how-to-make-toast-message-when-button-is-clicked
-                     */
-                 /*   Toast.makeText(getBaseContext(), getString(R.string.cookie_quantity_negative_number),
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                //Display the new number
-                quantityString = Integer.toString(quantity);
-                cookieQuantityEditText.setText(quantityString);
-            }
-        });
-    }
-
-
     /* Setting the toolbar as the action bar and the UP navigation icon (icon_arrow_back.xml)
         as the nav drawer button */
     private void configureToolbar() {
@@ -299,13 +269,13 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         //Apply the adapter to the spinner
         cookieTypeSpinner.setAdapter(cookieTypeAdapter);
 
-        //Set the integer mSelected to the constant values
+        //Set the integer to the constant values
         cookieTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.cookie_type_sweet))) {
+                    if (selection.equals(getString(R.string.cookie_type_sweet_spinner))) {
                         cookieType = CookieEntry.COOKIE_TYPE_SWEET;
                     } else {
                         cookieType = CookieEntry.COOKIE_TYPE_SAVOURY;
@@ -617,10 +587,17 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
             int supplierPhoneNr = cursor.getInt(supplierPhoneNrColumnIndex);
             String supplierEmail = cursor.getString(supplierEmailColumnIndex);
 
+            /* Formatting the price to show 2 decimal points when the price ends in 0 (for ex. 1.50).
+             * Solution from Udacity's mentor Vlad and https://stackoverflow.com/questions/8065114/how-
+             * to-print-a-double-with-two-decimals-in-android
+             */
+            DecimalFormat priceFormat = new DecimalFormat("0.00");
+            String cookiePriceFormatted = priceFormat.format(cookiePrice);
+
             //Update the views on the screen with the values from the database
             cookieNameEditText.setText(cookieName);
             cookieDescriptionEditText.setText(cookieDescription);
-            cookiePriceEditText.setText(Double.toString(cookiePrice));
+            cookiePriceEditText.setText(cookiePriceFormatted);
             cookieQuantityEditText.setText(Integer.toString(cookieQuantity));
             cookieSupplierNameEditText.setText(supplierName);
             cookieSupplierPhoneNrEditText.setText(Integer.toString(supplierPhoneNr));

@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.cookiejar.data.CookieJarContract;
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
+
+import java.text.DecimalFormat;
 
 /**
  * {@link CookieCursorAdapter} is an adapter for a list or grid view
@@ -72,10 +73,10 @@ public class CookieCursorAdapter extends CursorAdapter {
         final Button buyMeButton = view.findViewById(R.id.buy_me_button);
 
         //Color to visually show when a cookie is out of stock
-        final int colorDisabledButton = R.color.colorPrimaryDark;
+        //final int colorDisabledButton = R.color.colorPrimaryDark;
 
         //These are needed to assign the right photo according to the type of cookie
-        ImageView cookiePicture = (ImageView) view.findViewById(R.id.cookie_picture);
+        ImageView cookiePictureImageView = (ImageView) view.findViewById(R.id.cookie_picture);
         int cookiePhoto = 0;
 
         //Find the columns we're interested in
@@ -92,17 +93,25 @@ public class CookieCursorAdapter extends CursorAdapter {
         String cookieQuantity = cursor.getString(quantityColumnIndex);
         String cookieTypeNumber = cursor.getString(typeColumnIndex);
 
+        /* Formatting the price to show 2 decimal points when the price ends in 0 (for ex. 1.50).
+         * Solution from Udacity's mentor Vlad and https://stackoverflow.com/questions/8065114/how-
+         * to-print-a-double-with-two-decimals-in-android
+         */
+        DecimalFormat priceFormat = new DecimalFormat("0.00");
+        String cookiePriceFormatted = priceFormat.format(Double.parseDouble(cookiePrice));
+
         /* Turning the values 1 and 2 of the cookie type into "sweet" (1) or "savoury" (2),
-         * as specified in the {@Link CookieJarContract}
-        */
-        String cookieType = "";
+         * as specified in the {@Link CookieJarContract}.
+         * Set the cookie photo accordingly.
+         */
+        int cookieType = 0;
         switch(cookieTypeNumber) {
             case "1":
-                cookieType = "Sweet cookies";
+                cookieType = R.string.sweet_cookies_label;
                 cookiePhoto = R.drawable.sweet_cookies;
                 break;
             case "2":
-                cookieType = "Savoury cookies";
+                cookieType = R.string.savoury_cookies_label;
                 cookiePhoto = R.drawable.savoury_cookies;
                 break;
         }
@@ -110,14 +119,13 @@ public class CookieCursorAdapter extends CursorAdapter {
         //Update the TextViews and ImageView with the attributes for the current cookie
         cookieNameTextView.setText(cookieName);
         cookieDescriptionTextView.setText(cookieDescription);
-        cookiePriceTextView.setText(cookiePrice);
+        cookiePriceTextView.setText(cookiePriceFormatted);
         cookieQuantityTextView.setText(cookieQuantity);
         cookieTypeTextView.setText(cookieType);
-        cookiePicture.setImageResource(cookiePhoto);
+        cookiePictureImageView.setImageResource(cookiePhoto);
 
 
-        //Decreasing the # of cookies by one because the user clicked on the "Buy me" button
-        //final int quantityColumnIndex = cursor.getColumnIndex(GameEntry.COLUMN_QUANTITY);
+        //Implementing the functionality for the "Buy me" button: decreasing the # of cookies by one
         String currentQuantity = cursor.getString(quantityColumnIndex);
         final int quantityIntCurrent = Integer.valueOf(currentQuantity);
 

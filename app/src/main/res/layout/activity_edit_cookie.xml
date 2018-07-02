@@ -37,7 +37,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_horizontal_content"
+                android:paddingRight="@dimen/margin_horizontal_content">
 
                 <!-- Cookie info category -->
                 <TextView
@@ -48,12 +50,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
                         android:text="@string/cookie_name" />
 
                     <EditText
@@ -70,12 +71,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="wrap_content"
                         android:text="@string/cookie_description" />
 
                     <EditText
@@ -93,19 +93,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
-                        android:text="@string/cookie_price" />
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
+                        android:text="@string/cookie_price"
+                        android:layout_gravity="center"/>
 
                     <!-- Cookie price field -->
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/padding_left_input_text">
+                        android:layout_height="wrap_content">
 
                         <EditText
                             android:id="@+id/edit_cookie_price"
@@ -129,31 +128,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal">
+                    android:layout_marginTop="@dimen/margin_top_form_fields">
 
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
                         android:text="@string/cookie_quantity" />
 
                     <Button
                         android:id="@+id/fewer_cookies"
-                        android:layout_marginRight="@dimen/margin_buttons"
+                        style="@style/CookieQuantity"
+                        android:layout_marginLeft="@dimen/margin_left_button_minus"
                         android:layout_weight="0"
-                        android:text="@string/button_fewer_cookies"
-                        style="@style/CookieQuantity"/>
+                        android:text="@string/button_fewer_cookies" />
 
                     <EditText
                         android:id="@+id/edit_cookie_quantity"
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
+                        android:layout_marginLeft="@dimen/margin_buttons"
+                        android:layout_marginRight="@dimen/margin_buttons"
                         android:hint="@string/cookie_quantity_hint"
                         android:inputType="number" />
 
                     <Button
                         android:id="@+id/more_cookies"
-                        android:layout_marginLeft="@dimen/margin_buttons"
                         android:layout_weight="0"
                         android:text="@string/button_more_cookies"
                         style="@style/CookieQuantity"/>
@@ -165,20 +165,18 @@
                     android:id="@+id/container_cookie_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal"
-                    android:paddingTop="@dimen/margin_horizontal">
+                    android:orientation="horizontal">
 
                     <!-- Label -->
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
                         android:text="@string/cookie_type"
                         android:layout_gravity="center"/>
 
                     <!-- Input field -->
                     <LinearLayout
-                        android:layout_width="@dimen/zero_dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:orientation="vertical">
@@ -188,28 +186,27 @@
                             android:id="@+id/spinner_cookie_type"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/layout_height_spinner"
-                            android:paddingRight="@dimen/padding_right_spinner"
-                            android:spinnerMode="dropdown" />
+                            android:spinnerMode="dropdown"
+                            android:padding="0dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <!-- Supplier info category -->
+                <!-- Supplier info section -->
                 <TextView
                     style="@style/SectionLabelStyle"
-                    android:text="@string/supplier_info" />
+                    android:text="@string/supplier_info"/>
 
                 <!-- Supplier name -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal"
                     android:paddingTop="@dimen/margin_horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
                         android:text="@string/supplier_name" />
 
                     <EditText
@@ -218,7 +215,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/supplier_name_hint"
-                        android:inputType="textCapWords" />
+                        android:inputType="textCapWords"/>
 
                 </LinearLayout>
 
@@ -227,13 +224,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal"
                     android:paddingTop="@dimen/margin_horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
-                        android:text="@string/supplier_phone_nr" />
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
+                        android:text="@string/supplier_phone_nr"
+                        android:layout_gravity="center"/>
 
                     <EditText
                         android:id="@+id/edit_cookie_supplier_phone"
@@ -250,12 +247,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/margin_horizontal"
-                    android:paddingRight="@dimen/margin_horizontal"
                     android:paddingTop="@dimen/margin_horizontal">
 
                     <TextView
-                        style="@style/CategoryStyle"
+                        style="@style/LabelStyle"
+                        android:layout_width="@dimen/label_layout_width"
                         android:text="@string/supplier_email" />
 
                     <EditText

@@ -1,29 +1,54 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Cookie Jar Inventory App</string>
+
+    <!-- Strings used in menu_cookie_catalog.xml -->
+    <string name="insert_demo_data">Insert demo data</string>
+    <string name="delete_all_cookies">Delete all cookies</string>
+
+    <!-- Empty state text: no data -->
+    <string name="empty_view_no_data1">Oh no! We ran out of cookies.</string>
+    <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
+
+    <!-- Strings used in the nav drawer -->
+    <string name="nav_drawer_title">Cookie Jar Inventory App</string>
+    <string name="menu_item_1">Buy cookies</string>
+    <string name="menu_item_2">Add a cookie</string>
+    <string name="menu_item_3">About</string>
 
     <!-- Labels used in activity_edit_cookie.xml -->
     <string name="cookie_info">Cookie info</string>
     <string name="cookie_name">Name:</string>
     <string name="cookie_description">Description:</string>
-    <string name="cookie_price">Price per unit (SEK):</string>
+    <string name="cookie_price">Price per unit:</string>
+    <string name="currency">SEK</string>
     <string name="cookie_quantity">Quantity:</string>
     <string name="cookie_type">Type:</string>
+    <string name="button_fewer_cookies">-</string>
+    <string name="button_more_cookies">+</string>
+
+    <!-- Strings used in activity_edit_cookie.xml and cookie_details.xml -->
     <string name="supplier_info">Supplier info</string>
     <string name="supplier_name">Name:</string>
     <string name="supplier_phone_nr">Phone number:</string>
     <string name="supplier_email">E-mail:</string>
-    <string name="button_fewer_cookies">-</string>
-    <string name="button_more_cookies">+</string>
+
+    <!-- Strings used in cookie_list_item.xml and cookie_details.xml -->
+    <string name="price_list_item">Price:\u0020</string>
+    <string name="currency_unit_list_item">\u0020SEK/unit</string>
+    <string name="left_in_stock_list_item">\u0020left in stock</string>
+
+    <!-- Strings used in menu_cookie_details.xml -->
+    <string name="edit_cookie">Edit cookie</string>
 
     <!-- Labels for add or edit cookie -->
     <string name="app_bar_title_add_cookie">Add a cookie</string>
     <string name="app_bar_title_edit_cookie">Edit cookie</string>
 
     <!-- Dropdown menu options -->
-    <string name="cookie_type_sweet">Sweet</string>
-    <string name="cookie_type_savoury">Savoury</string>
+    <string name="cookie_type_sweet_spinner">Sweet</string>
+    <string name="cookie_type_savoury_spinner">Savoury</string>
 
-    <!-- Hints -->
+    <!-- Hints used in the form to add or edit cookie -->
     <string name="cookie_name_hint">Wafer ABC</string>
     <string name="cookie_description_hint">Delicious cookie to have with your afternoon coffee</string>
     <string name="cookie_price_hint">2.50</string>
@@ -32,26 +57,12 @@
     <string name="supplier_phone_nr_hint">1234567890</string>
     <string name="supplier_email_hint">mail@mail.com</string>
 
-    <!-- Miscellaneous -->
-    <string name="currency">SEK</string>
-
-    <!-- Strings used in menu_cookie_catalog.xml -->
-    <string name="insert_demo_data">Insert demo data</string>
-    <string name="delete_all_cookies">Delete all cookies</string>
-
-    <!-- String used in the toast when inserting dummy data -->
-    <string name="dummy_data_saved_in_db">Cookie saved: Ballerina</string>
-
     <!-- Strings used in menu_edit_cookie.xml -->
     <string name="save_cookie">Save cookie</string>
     <string name="delete_cookie">Delete cookie</string>
 
-    <!-- Strings used in the nav drawer -->
-    <string name="nav_drawer_title">Cookie Jar Inventory App</string>
-    <string name="menu_item_1">Buy cookies</string>
-    <string name="menu_item_2">Add a cookie</string>
-    <string name="menu_item_3">Settings</string>
-    <string name="menu_item_4">About</string>
+    <!-- String used in the toast when inserting dummy data -->
+    <string name="dummy_data_saved_in_db">Cookie saved: Ballerina</string>
 
     <!-- Toast message in editor when new cookie has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_cookie_successful">New cookie added:\u0020</string>
@@ -80,19 +91,15 @@
     <!-- Error message in case of invalid e-mail -->
     <string name="invalid_email">The e-mail is invalid. Please check and try again :)</string>
 
-    <!-- Empty view text: no data -->
-    <string name="empty_view_no_data1">Oh no! We ran out of cookies.</string>
-    <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
-
-    <!-- Dialog messages when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <!-- Dialog messages when user is leaving the editor but hasn't saved changes [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Leave without saving?</string>
     <string name="leave">Leave</string>
     <string name="keep_editing">Keep Editing</string>
 
-    <!-- Toast message in editor when current cookie was successfully deleted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when the current cookie was successfully deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_cookie_successful">Cookie deleted</string>
 
-    <!-- Toast message in editor when current cookie has failed to be deleted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when the current cookie has failed to be deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_cookie_failed">Error with deleting cookie</string>
 
     <!-- Dialog message to ask the user to confirm deleting the current cookie [CHAR LIMIT=NONE] -->
@@ -108,13 +115,19 @@
     <string name="delete_dialog_all_cookies">Delete all cookies?</string>
 
     <!-- Labels used in cookie_list_item.xml -->
-    <string name="price_list_item">Price:\u0020</string>
-    <string name="currency_unit_list_item">\u0020SEK/unit</string>
-    <string name="left_in_stock_list_item">\u0020left in stock</string>
     <string name="buy_me_button_label">Buy me</string>
 
-    <!-- String used in menu_cookie_details.xml -->
-    <string name="edit_cookie">Edit cookie</string>
+    <!-- Strings used in EditCookie.java and CookieCursorAdapter.java -->
+    <string name="sweet_cookies_label">Sweet cookies</string>
+    <string name="savoury_cookies_label">Savoury cookies</string>
+
+    <!-- Strings used to compose the e-mail to the supplier on CookieDetails.java -->
+    <string name="email_subject">Order for cookie: <xliff:g id="name" example="Wafer">%s</xliff:g></string>
+    <string name="order_summary_name">Order for cookie: <xliff:g id="name" example="Joe">%s</xliff:g></string>
+    <string name="body_text">Hello <xliff:g id="supplier" example="Fazer">%s</xliff:g>,\n\n
+        We\'d like to order 25 units of the cookie <xliff:g id="name" example="Graham crackers">%s</xliff:g>.\n\n
+        Best regards,\n
+        Cookie Jar</string>
 
     <!-- Strings used in about.xml -->
     <string name="about_label">How Cookie Jar came about</string>
@@ -132,4 +145,5 @@
     <string name="about_content_paragraph_4">Cookie Jar is born out of the wish to keep the child
         inside alive. All the cookies are personally vetted to provide the highest quality possible
         at affordable prices. </string>
+
 </resources>
