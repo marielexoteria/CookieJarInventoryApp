@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
-import com.example.android.cookiejar.R;
 import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 
 import static android.provider.Settings.Global.getString;
