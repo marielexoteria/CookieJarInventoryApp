@@ -91,8 +91,6 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         }
     };
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +178,6 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
                     //Display the new number
                     quantityString = Integer.toString(quantity);
                     cookieQuantityEditText.setText(quantityString);
-                    //buyMeButton.setEnabled(true); //- NO FUNCIONA
                 }
             }
         });
