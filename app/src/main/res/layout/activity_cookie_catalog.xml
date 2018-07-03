@@ -8,7 +8,8 @@
     android:fitsSystemWindows="true">
 
     <!-- Layout for the list of cookies. Main UI -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/cookie_main_activity"
         android:layout_width="match_parent"
@@ -28,11 +29,12 @@
             android:layout_marginTop="@dimen/margin_top_from_actionbar"
             android:divider="@android:color/transparent"
             android:dividerHeight="@dimen/divider_height"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:listSelector="@android:color/transparent"/>
 
-        <!-- Empty view for the list -->
+        <!-- Empty state: no cookies/data saved in the db -->
         <RelativeLayout
-            android:id="@+id/empty_view"
+            android:id="@+id/empty_state_no_data_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
@@ -52,7 +54,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:paddingTop="@dimen/margin_vertical_no_cookies"
-                android:text="@string/empty_view_no_data1"
+                android:text="@string/empty_state_no_data1"
                 android:textColor="@color/colorAccent" />
 
             <TextView
@@ -62,10 +64,9 @@
                 android:layout_below="@+id/empty_title_text1"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="@string/empty_view_no_data2"
+                android:text="@string/empty_state_no_data2"
                 android:textColor="@color/textColorHintTexts" />
         </RelativeLayout>
-
 
         <!-- Issue with the FAB icon showing smaller solved with
         the help of https://stackoverflow.com/questions/27484126/

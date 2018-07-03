@@ -25,7 +25,7 @@ public class CookieJarDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase cookieDB) {
 
-        //String to create the table using the constants from the PetContract class
+        //String to create the table using the constants from the CookieJarContract class
         String SQL_CREATE_COOKIE_TABLE = "CREATE TABLE " + CookieEntry.TABLE_NAME + "("
                 + CookieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CookieEntry.COOKIE_NAME + " TEXT NOT NULL, "

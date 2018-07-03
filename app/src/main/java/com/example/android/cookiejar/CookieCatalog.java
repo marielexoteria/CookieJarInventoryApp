@@ -4,7 +4,7 @@ package com.example.android.cookiejar;
  * implementing-navigation/nav-drawer#top_of_page
  * and https://medium.com/@ssaurel/implement-a-navigation-
  * drawer-with-a-toolbar-on-android-m-68162f13d220
-*/
+ */
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -75,7 +75,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         ListView cookieListView = (ListView) findViewById(R.id.cookie_list_view);
 
         //Find and set empty view on the ListView, so that it only shows when the list has 0 items.
-        View emptyView = findViewById(R.id.empty_view);
+        View emptyView = findViewById(R.id.empty_state_no_data_layout);
         cookieListView.setEmptyView(emptyView);
 
         /* Setup an Adapter to create a list item for each row of the cookie data in the Cursor.
@@ -90,14 +90,14 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
             //int position = position of the item in the ListView (which here is sent via the variable adapterView)
             //long id = id of the item in the ListView
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Create new intent to go to {@link EditCookie}
-                //Intent intent = new Intent(CookieCatalog.this, EditCookie.class);
+                //Create new intent to go to {@link CookieDetails}
                 Intent intent = new Intent(CookieCatalog.this, CookieDetails.class);
 
-                //Form the content URI that represents the specific cookie that was clicked on
-                //by appending the "id" (passed as input to this method) onto the
-                //{@link CookieEntry#CONTENT_URI}. For example, if cookie with id of 2 would be clicked on
-                //the URI would be "content://com.example.android.cookiejar/cookies/2"
+                /* Form the content URI that represents the specific cookie that was clicked on
+                 * by appending the "id" (passed as input to this method) onto the
+                 * {@link CookieEntry#CONTENT_URI}. For example, if cookie with id of 2 would be clicked on
+                 * the URI would be "content://com.example.android.cookiejar/cookies/2"
+                 */
                 Uri currentCookieUri = ContentUris.withAppendedId(CookieEntry.CONTENT_URI, id);
 
                 //Set the data URI on the data field of the intent
@@ -113,7 +113,8 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
     }
 
     /* Setting the toolbar as the action bar and the hamburger menu icon (icon_menu.xml)
-        as the nav drawer button */
+     * as the nav drawer button
+     */
     private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,12 +133,11 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         //Set item as selected to persist highlight
                         menuItem.setChecked(true);
+
                         //Close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
-                        /* Add code here to update the UI based on the item selected.
-                         * For example, swap UI fragments here
-                         */
+                        //Update the UI based on the item selected.
                         switch (menuItem.getItemId()) {
 
                             //Respond to a click on the menu options
@@ -170,7 +170,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
 
         //Populating the ContentValues object
         cookieValues.put(CookieEntry.COOKIE_NAME, "Ballerina");
-        cookieValues.put(CookieEntry.COOKIE_DESCRIPTION, "Delicious cookie to have with your afternoon coffee");
+        cookieValues.put(CookieEntry.COOKIE_DESCRIPTION, "Delicious cookie to have with your afternoon coffee.");
         cookieValues.put(CookieEntry.COOKIE_PRICE, "14.50");
         cookieValues.put(CookieEntry.COOKIE_QUANTITY, "5");
         cookieValues.put(CookieEntry.COOKIE_TYPE, CookieEntry.COOKIE_TYPE_SWEET);
@@ -185,7 +185,7 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
          */
         Uri newUri = getContentResolver().insert(CookieEntry.CONTENT_URI, cookieValues);
 
-        //Toast message
+        //Toast message "Cookie saved"
         Toast.makeText(this, getString(R.string.dummy_data_saved_in_db) , Toast.LENGTH_SHORT).show();
     }
 
@@ -205,8 +205,8 @@ public class CookieCatalog extends AppCompatActivity implements LoaderManager.Lo
         //If the user clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
 
-            //Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_demo_data:
+            //Respond to a click on the "Insert demo cookie" menu option
+            case R.id.action_insert_demo_cookie:
                 insertCookie();
                 return true;
 

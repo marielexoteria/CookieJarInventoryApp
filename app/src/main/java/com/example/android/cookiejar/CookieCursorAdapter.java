@@ -72,9 +72,6 @@ public class CookieCursorAdapter extends CursorAdapter {
         //Buy me button
         final Button buyMeButton = view.findViewById(R.id.buy_me_button);
 
-        //Color to visually show when a cookie is out of stock
-        //final int colorDisabledButton = R.color.colorPrimaryDark;
-
         //These are needed to assign the right photo according to the type of cookie
         ImageView cookiePictureImageView = (ImageView) view.findViewById(R.id.cookie_picture);
         int cookiePhoto = 0;
@@ -124,7 +121,6 @@ public class CookieCursorAdapter extends CursorAdapter {
         cookieTypeTextView.setText(cookieType);
         cookiePictureImageView.setImageResource(cookiePhoto);
 
-
         //Implementing the functionality for the "Buy me" button: decreasing the # of cookies by one
         String currentQuantity = cursor.getString(quantityColumnIndex);
         final int quantityIntCurrent = Integer.valueOf(currentQuantity);
@@ -144,9 +140,7 @@ public class CookieCursorAdapter extends CursorAdapter {
                     contentValues.put(CookieEntry.COOKIE_QUANTITY, newQuantity);
                     context.getContentResolver().update(cookieQuantityUri, contentValues, null, null);
                 } else {
-                    Toast.makeText(context, "We ran out of this cookie :(", Toast.LENGTH_SHORT).show();
-                    //buyMeButton.setEnabled(false);
-                    //buyMeButton.setBackgroundColor(colorDisabledButton);
+                    Toast.makeText(context, R.string.no_cookies, Toast.LENGTH_SHORT).show();
                 }
             }
         });

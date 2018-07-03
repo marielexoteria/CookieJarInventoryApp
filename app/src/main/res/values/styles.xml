@@ -30,20 +30,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <!-- Style for the text in nav_header.xml -->
-    <style name="TextInNavHeader">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <!-- Style for the main headlines (for ex. the cookie name, "About") -->
+    <!-- Style for the main headlines (for ex. the cookie name) -->
     <style name="MainHeadline" parent="@style/AppTheme">
         <item name="android:fontFamily">@font/cookie_regular</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">@dimen/main_headlines_size</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <!-- Style for the sections "Cookie info" and "Supplier info" -->
+    <!-- Style for the sections "Cookie info" and "Supplier info" and the nav drawer title -->
     <style name="SectionLabelStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
@@ -74,7 +68,7 @@
     </style>
 
     <!-- Style for the measurement units for an EditText field in activity_edit_cookie.xml -->
-    <style name="EditorUnitsStyle">
+    <style name="CurrencyStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>

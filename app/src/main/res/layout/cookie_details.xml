@@ -1,282 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@color/backgroundColorWithTransparency"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
-
-    <!-- CardView tutorial from https://medium.com/@nileshsingh/
-    android-cardview-101-everything-you-should-know-5bbf1c873f5a,
-    inspired by https://discussions.udacity.com/t/solved-cannot
-    -edit-cookie-after-adding-the-buy-me-button/820188 -->
-
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/white"
-        android:layout_marginTop="@dimen/margin_top_cardview"
-        android:layout_marginLeft="@dimen/margin_horizontal"
-        android:layout_marginRight="@dimen/margin_horizontal"
-        app:cardCornerRadius="@dimen/corner_radius"
-        app:cardElevation="@dimen/card_elevation"
-        app:cardMaxElevation="@dimen/max_card_elevation"
-        app:contentPaddingBottom="@dimen/card_padding_bottom">
+        android:orientation="vertical">
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <include layout="@layout/toolbar" />
+
+        <!-- CardView tutorial from https://medium.com/@nileshsingh/
+        android-cardview-101-everything-you-should-know-5bbf1c873f5a,
+        inspired by https://discussions.udacity.com/t/solved-cannot
+        -edit-cookie-after-adding-the-buy-me-button/820188 -->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/card_padding_bottom">
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_marginTop="@dimen/margin_top_cardview"
+            android:layout_marginLeft="@dimen/margin_horizontal"
+            android:layout_marginRight="@dimen/margin_horizontal"
+            android:layout_marginBottom="@dimen/cardview_margin_bottom"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:cardMaxElevation="@dimen/max_card_elevation"
+            app:contentPaddingBottom="@dimen/padding_bottom_content_about"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/beige_bg">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/card_padding_bottom">
 
-                <!-- Cookie name and type -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/inner_padding_card"
-                    android:layout_weight="1">
+                    android:orientation="horizontal"
+                    android:background="@drawable/header_beige_bg">
 
-                    <TextView
-                        android:id="@+id/cookie_name_details"
+                    <!-- Cookie name and type -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/MainHeadline"
-                        tools:text="Cookie name"/>
+                        android:orientation="vertical"
+                        android:padding="@dimen/inner_padding_card"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/cookie_type_details"
+                        <TextView
+                            android:id="@+id/cookie_name_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/MainHeadline"
+                            tools:text="Cookie name"/>
+
+                        <TextView
+                            android:id="@+id/cookie_type_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:layout_marginBottom="@dimen/margin_bottom_cookie_type"
+                            android:textColor="@color/colorAccent"
+                            tools:text="Cookie type"/>
+
+                    </LinearLayout>
+
+                    <!-- Cookie picture -->
+                    <ImageView
+                        android:id="@+id/cookie_picture_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:layout_marginBottom="@dimen/margin_bottom_cookie_type"
-                        android:textColor="@color/colorAccent"
-                        tools:text="Cookie type"/>
+                        android:layout_marginRight="@dimen/inner_padding_card"
+                        android:layout_weight="0"
+                        android:layout_gravity="center_vertical"
+                        tools:src="@drawable/sweet_cookies"/>
 
                 </LinearLayout>
 
-                <!-- Cookie picture -->
-                <ImageView
-                    android:id="@+id/cookie_picture_details"
+                <!-- Cookie description -->
+                <TextView
+                    android:id="@+id/cookie_description_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/inner_padding_card"
-                    android:layout_weight="0"
-                    android:layout_gravity="center_vertical"
-                    tools:src="@drawable/sweet_cookies"/>
-
-            </LinearLayout>
-
-            <!-- Cookie description -->
-            <TextView
-                android:id="@+id/cookie_description_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_horizontal_content"
-                android:layout_marginRight="@dimen/margin_horizontal_content"
-                android:layout_marginTop="@dimen/margin_top_cookie_description"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/colorAccent"
-                tools:text="Cookie description" />
-
-            <!-- Cookie price -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_cookie_price"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/margin_horizontal_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/price_list_item"
-                    android:textColor="@color/colorAccent"/>
-
-                <TextView
-                    android:id="@+id/cookie_price_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/SpecialInfoText"
-                    tools:text="1.50" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/currency_unit_list_item"
-                    style="@style/SpecialInfoText"/>
-
-            </LinearLayout>
-
-            <!-- Cookie quantity -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_bottom_cookie_quantity"
-                android:layout_marginTop="@dimen/margin_top_cookie_price"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/margin_horizontal_content">
-
-                <TextView
-                    android:id="@+id/cookie_quantity_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/SpecialInfoText"
-                    tools:text="25"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/left_in_stock_list_item"
-                    android:textColor="@color/colorAccent"/>
-            </LinearLayout>
-
-            <!-- Supplier info label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_horizontal_content"
-                style="@style/SectionLabelStyle"
-                android:text="@string/supplier_info"/>
-
-            <!-- Separator line for decoration -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator_height"
-                android:layout_marginLeft="@dimen/margin_horizontal_content"
-                android:layout_marginRight="@dimen/margin_horizontal_content"
-                android:layout_marginTop="@dimen/separator_margin_top"
-                android:background="@color/colorPrimary"/>
-
-
-            <!-- Supplier name -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_cookie_price"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/margin_horizontal_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Name:"
-                    android:textColor="@color/colorAccent"/>
-
-                <TextView
-                    android:id="@+id/supplier_name_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/margin_horizontal_content"
-                    style="@style/SpecialInfoText"
-                    tools:text="Fazer AB" />
-
-            </LinearLayout>
-
-            <!-- Supplier phone number -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_elements"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/margin_horizontal_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="@string/supplier_phone_nr"
-                    android:textColor="@color/colorAccent"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:id="@+id/supplier_phone_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_horizontal_content"
-                    android:layout_gravity="center"
-                    style="@style/SpecialInfoText"
-                    tools:text="12345678" />
-
-                <!-- Removing the standard background from:
-                https://stackoverflow.com/questions/5457138/how-
-                to-remove-imagebuttons-standard-background-image-->
-                <ImageButton
-                    android:id="@+id/supplier_phone_image_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_supplier_phone"
                     android:layout_marginRight="@dimen/margin_horizontal_content"
-                    android:layout_weight="0"
-                    android:background="@null"/>
-
-            </LinearLayout>
-
-            <!-- Supplier e-mail number -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_elements"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/margin_horizontal_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="@string/supplier_email"
+                    android:layout_marginTop="@dimen/margin_top_cookie_description"
+                    android:fontFamily="sans-serif"
                     android:textColor="@color/colorAccent"
-                    android:layout_gravity="center"/>
+                    tools:text="Cookie description" />
 
+                <!-- Cookie price -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_cookie_price"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/price_list_item"
+                        android:textColor="@color/colorAccent"/>
+
+                    <TextView
+                        android:id="@+id/cookie_price_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/SpecialInfoText"
+                        tools:text="1.50" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/currency_unit_list_item"
+                        style="@style/SpecialInfoText"/>
+
+                </LinearLayout>
+
+                <!-- Cookie quantity -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_bottom_cookie_quantity"
+                    android:layout_marginTop="@dimen/margin_top_cookie_price"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content">
+
+                    <TextView
+                        android:id="@+id/cookie_quantity_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SpecialInfoText"
+                        tools:text="25"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/left_in_stock_list_item"
+                        android:textColor="@color/colorAccent"/>
+                </LinearLayout>
+
+                <!-- Supplier info label -->
                 <TextView
-                    android:id="@+id/supplier_email_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/margin_horizontal_content"
-                    android:layout_gravity="center"
-                    style="@style/SpecialInfoText"
-                    tools:text="yo@yo.com" />
+                    style="@style/SectionLabelStyle"
+                    android:text="@string/supplier_info"/>
 
-                <!-- Removing the standard background from:
-                https://stackoverflow.com/questions/5457138/how-
-                to-remove-imagebuttons-standard-background-image-->
-                <ImageButton
-                    android:id="@+id/supplier_email_image_button"
+                <!-- Separator line for decoration -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separator_height"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content"
+                    android:layout_marginRight="@dimen/margin_horizontal_content"
+                    android:layout_marginTop="@dimen/separator_margin_top"
+                    android:background="@color/colorPrimary"/>
+
+
+                <!-- Supplier name -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_supplier_mail"
-                    android:layout_marginRight="@dimen/margin_horizontal_content"
-                    android:layout_weight="0"
-                    android:background="@null"/>
+                    android:layout_marginTop="@dimen/margin_top_cookie_price"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content">
+
+                    <TextView
+                        android:layout_width="@dimen/supplier_info_label_width"
+                        android:layout_height="wrap_content"
+                        android:text="@string/supplier_name"
+                        android:textColor="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/supplier_name_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_horizontal_content"
+                        style="@style/SpecialInfoText"
+                        tools:text="Fazer AB" />
+
+                </LinearLayout>
+
+                <!-- Supplier phone number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_elements"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content">
+
+                    <TextView
+                        android:layout_width="@dimen/supplier_info_label_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        android:text="@string/supplier_phone_nr"
+                        android:textColor="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/supplier_phone_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_horizontal_content"
+                        android:layout_gravity="center"
+                        style="@style/SpecialInfoText"
+                        tools:text="12345678" />
+
+                    <!-- Removing the standard background from:
+                    https://stackoverflow.com/questions/5457138/how-
+                    to-remove-imagebuttons-standard-background-image-->
+                    <ImageButton
+                        android:id="@+id/supplier_phone_image_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_supplier_phone"
+                        android:layout_marginRight="@dimen/margin_horizontal_content"
+                        android:layout_weight="0"
+                        android:layout_gravity="center"
+                        android:background="@null"/>
+
+                </LinearLayout>
+
+                <!-- Supplier e-mail number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_elements"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_horizontal_content">
+
+                    <TextView
+                        android:layout_width="@dimen/supplier_info_label_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        android:text="@string/supplier_email"
+                        android:textColor="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/supplier_email_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_horizontal_content"
+                        android:layout_gravity="center"
+                        style="@style/SpecialInfoText"
+                        tools:text="yo@yo.com" />
+
+                    <!-- Removing the standard background from:
+                    https://stackoverflow.com/questions/5457138/how-
+                    to-remove-imagebuttons-standard-background-image-->
+                    <ImageButton
+                        android:id="@+id/supplier_email_image_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_supplier_mail"
+                        android:layout_marginRight="@dimen/margin_horizontal_content"
+                        android:layout_weight="0"
+                        android:background="@null"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+    </LinearLayout>
 
-
-    </android.support.v7.widget.CardView>
-
-
-</LinearLayout>
+</ScrollView>

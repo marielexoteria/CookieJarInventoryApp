@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 //Contract class to connect to the SQLite db "cookiejar" and enable CRUD actions
 import com.example.android.cookiejar.R;
@@ -34,12 +32,13 @@ public class CookieJarProvider extends ContentProvider {
     private CookieJarDbHelper cookieDbHelper;
 
     /**
-     * URI matcher code for the content URI for the cookiejar table
+     * URI matcher code for the content URI for the cookies table (as per the CookieJarContract)
      */
     private static final int COOKIES = 100;
 
     /**
-     * URI matcher code for the content URI for a single cookie in the cookiejar table
+     * URI matcher code for the content URI for a single cookie in the cookies table
+     * (as per the CookieJarContract)
      */
     private static final int COOKIE_ID = 101;
 
@@ -50,7 +49,7 @@ public class CookieJarProvider extends ContentProvider {
      */
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    // Static initializer. This is run the first time anything is called from this class.
+    //Static initializer. This is run the first time anything is called from this class.
     static {
         // The calls to addURI() go here, for all of the content URI patterns that the provider
         // should recognize. All paths added to the UriMatcher have a corresponding code to return
@@ -67,44 +66,45 @@ public class CookieJarProvider extends ContentProvider {
         return true;
     }
 
-    /**
-     * Perform the query for the given URI. Use the given projection, selection, selection arguments, and sort order.
-     */
+    //Perform the query for the given URI. Use the given projection, selection, selection arguments, and sort order.
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
 
-        // Get readable database
+        //Get readable database
         SQLiteDatabase database = cookieDbHelper.getReadableDatabase();
 
         // This cursor will hold the result of the query
         Cursor cursor;
 
-        // Figure out if the URI matcher can match the URI to a specific code
+        //Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
             case COOKIES:
-                // For the COOKIES code, query the cookiejar table directly with the given
-                // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the cookiejar table.
+                /* For the COOKIES code, query the cookiejar table directly with the given
+                 * projection, selection, selection arguments, and sort order. The cursor
+                 * could contain multiple rows of the cookiejar table.
+                 */
                 cursor = database.query(CookieEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case COOKIE_ID:
-                // For the COOKIE_ID code, extract out the ID from the URI.
-                // For an example URI such as "content://com.example.android.cookiejar/cookiejar/3",
-                // the selection will be "_id=?" and the selection argument will be a
-                // String array containing the actual ID of 3 in this case.
-                //
-                // For every "?" in the selection, we need to have an element in the selection
-                // arguments that will fill in the "?". Since we have 1 question mark in the
-                // selection, we have 1 String in the selection arguments' String array.
+                /* For the COOKIE_ID code, extract out the ID from the URI.
+                 * For an example URI such as "content://com.example.android.cookiejar/cookies/3",
+                 * the selection will be "_id=?" and the selection argument will be a
+                 * String array containing the actual ID of 3 in this case.
+                 * For every "?" in the selection, we need to have an element in the selection
+                 * arguments that will fill in the "?". Since we have 1 question mark in the
+                 * selection, we have 1 String in the selection arguments' String array.
+                 */
+
                 selection = CookieEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
-                // This will perform a query on the cookie table where the _id equals 3 to return a
-                // Cursor containing that row of the table.
+                /* This will perform a query on the cookie table where the _id equals 3 to return a
+                 * Cursor containing that row of the table.
+                 */
                 cursor = database.query(CookieEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
@@ -123,9 +123,7 @@ public class CookieJarProvider extends ContentProvider {
         return cursor;
     }
 
-    /**
-     * Insert new data into the provider with the given ContentValues.
-     */
+    //Insert new data into the provider with the given ContentValues.
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
@@ -190,31 +188,31 @@ public class CookieJarProvider extends ContentProvider {
         }
         /* End: data validation */
 
-        // Get writeable database
+        //Get writeable database
         SQLiteDatabase database = cookieDbHelper.getWritableDatabase();
 
-        // Insert the new cookie with the given values
+        //Insert the new cookie with the given values
         long id = database.insert(CookieEntry.TABLE_NAME, null, contentValues);
 
-        // If the ID is -1, then the insertion failed. Log an error and return null.
+        //If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
             Log.e(LOG_TAG, "Cannot insert row for " + uri);
             return null;
         }
 
-        //Notify all listeners that the data has changed for the cookie content URI
-        //uri: content://com.example.android.cookiejar/cookies
+        /*Notify all listeners that the data has changed for the cookie content URI
+         * uri: content://com.example.android.cookiejar/cookiejar
+         */
         getContext().getContentResolver().notifyChange(uri, null);
 
 
-        // Once we know the ID of the new row in the table,
-        // return the new URI with the ID appended to the end of it
+        /* Once we know the ID of the new row in the table,
+         * return the new URI with the ID appended to the end of it
+         */
         return ContentUris.withAppendedId(uri, id);
     }
 
-    /**
-     * Delete the data at the given selection and selection arguments.
-     */
+    //Delete the data at the given selection and selection arguments.
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues,
                       @Nullable String selection, @Nullable String[] selectionArgs) {
@@ -223,9 +221,10 @@ public class CookieJarProvider extends ContentProvider {
             case COOKIES:
                 return updateCookie(uri, contentValues, selection, selectionArgs);
             case COOKIE_ID:
-                // For the COOKIE_ID code, extract out the ID from the URI,
-                // so we know which row to update. Selection will be "_id=?" and selection
-                // arguments will be a String array containing the actual ID.
+                /* For the COOKIE_ID code, extract out the ID from the URI,
+                 * so we know which row to update. Selection will be "_id=?" and selection
+                 * arguments will be a String array containing the actual ID.
+                 */
                 selection = CookieEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateCookie(uri, contentValues, selection, selectionArgs);
@@ -334,9 +333,7 @@ public class CookieJarProvider extends ContentProvider {
     }
 
 
-    /**
-     * Updates the data at the given selection and selection arguments, with the new ContentValues.
-     */
+    //Updates the data at the given selection and selection arguments, with the new ContentValues.
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         //Get writeable database

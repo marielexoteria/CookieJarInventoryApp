@@ -29,17 +29,21 @@
             android:layout_marginTop="@dimen/margin_top_cardview"
             android:layout_marginLeft="@dimen/margin_horizontal"
             android:layout_marginRight="@dimen/margin_horizontal"
+            android:layout_marginBottom="@dimen/cardview_margin_bottom"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="@dimen/card_elevation"
             app:cardMaxElevation="@dimen/max_card_elevation"
-            app:contentPaddingBottom="@dimen/padding_bottom_content_about">
+            app:contentPaddingBottom="@dimen/padding_bottom_content_about"
+            app:cardUseCompatPadding="true">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_horizontal_content"
-                android:paddingRight="@dimen/margin_horizontal_content">
+                android:paddingRight="@dimen/margin_horizontal_content"
+                android:paddingBottom="@dimen/card_padding_bottom">
 
                 <!-- Cookie info category -->
                 <TextView
@@ -117,7 +121,7 @@
                         <!-- Chosen currency (SEK) -->
                         <TextView
                             android:id="@+id/label_weight_units"
-                            style="@style/EditorUnitsStyle"
+                            style="@style/CurrencyStyle"
                             android:text="@string/currency" />
                     </RelativeLayout>
 
@@ -147,8 +151,9 @@
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:layout_marginLeft="@dimen/margin_buttons"
-                        android:layout_marginRight="@dimen/margin_buttons"
+                        android:layout_marginLeft="@dimen/margin_top_form_fields"
+                        android:layout_marginRight="@dimen/margin_top_form_fields"
+                        android:paddingLeft="@dimen/inner_padding_edittext"
                         android:hint="@string/cookie_quantity_hint"
                         android:inputType="number" />
 

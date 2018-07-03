@@ -30,8 +30,6 @@ public final class CookieJarContract {
 
         public static final String TABLE_NAME = "cookies";
 
-        //Add the field for the picture later
-
         //Table fields
         public static final String _ID = BaseColumns._ID;
         public static final String COOKIE_NAME = "name";
@@ -49,7 +47,7 @@ public final class CookieJarContract {
 
 
         //Returns whether or not the given cookie type is sweet or savoury
-        public static boolean whichCookieType(int cookieType) { //se llama isValidGender en el curso con el app Pets
+        public static boolean whichCookieType(int cookieType) {
             if (cookieType == COOKIE_TYPE_SWEET || cookieType == COOKIE_TYPE_SAVOURY) {
                 return true;
             }

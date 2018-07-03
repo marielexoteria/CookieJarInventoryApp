@@ -2,12 +2,12 @@
     <string name="app_name">Cookie Jar Inventory App</string>
 
     <!-- Strings used in menu_cookie_catalog.xml -->
-    <string name="insert_demo_data">Insert demo data</string>
+    <string name="insert_demo_cookie">Insert demo cookie</string>
     <string name="delete_all_cookies">Delete all cookies</string>
 
-    <!-- Empty state text: no data -->
-    <string name="empty_view_no_data1">Oh no! We ran out of cookies.</string>
-    <string name="empty_view_no_data2">Never fear! Tap on the button below to add one.</string>
+    <!-- Empty state text: no cookies/data -->
+    <string name="empty_state_no_data1">Oh no! We ran out of cookies.</string>
+    <string name="empty_state_no_data2">Never fear! Tap on the button below to add one.</string>
 
     <!-- Strings used in the nav drawer -->
     <string name="nav_drawer_title">Cookie Jar Inventory App</string>
@@ -117,6 +117,9 @@
     <!-- Labels used in cookie_list_item.xml -->
     <string name="buy_me_button_label">Buy me</string>
 
+    <!-- String used in CookieCursorAdapter.java -->
+    <string name="no_cookies">We ran out of this cookie :(</string>
+
     <!-- Strings used in EditCookie.java and CookieCursorAdapter.java -->
     <string name="sweet_cookies_label">Sweet cookies</string>
     <string name="savoury_cookies_label">Savoury cookies</string>
@@ -135,7 +138,7 @@
     <string name="footer_text_part_2">\u0020by a cookie monster.</string>
     <string name="about_content_paragraph_1">Cookies. They come in all varieties: butter cookies,
         chocolate chip, Graham crackers, saltine crackers, digestive, with raisins, gingerbread&#8230;
-        \u0020the imagination is the limit!</string>
+        \u0020the limit is your imagination!</string>
     <string name="about_content_paragraph_2">As a child I looked forward to the weekly bake at home,
         in which the house filled with the sweetest scents. I enjoyed gradually going from measuring
         the dry ingredients to eventually baking my own batches of cookies.</string>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Options menu for the CookieCatalog -->
+<!-- Menu for the CookieCatalog -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 tools:context=".CookieCatalog">
 
     <item
-        android:id="@+id/action_insert_demo_data"
-        android:title="@string/insert_demo_data"
+        android:id="@+id/action_insert_demo_cookie"
+        android:title="@string/insert_demo_cookie"
         app:showAsAction="never" />
 
     <item

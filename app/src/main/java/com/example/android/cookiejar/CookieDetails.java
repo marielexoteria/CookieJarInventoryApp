@@ -1,12 +1,10 @@
 package com.example.android.cookiejar;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
@@ -127,7 +125,8 @@ public class CookieDetails extends AppCompatActivity implements LoaderManager.Lo
     }
 
     /* Setting the toolbar as the action bar and the UP navigation icon (icon_arrow_back.xml)
-        as the nav drawer button */
+     * as the nav drawer button
+     */
     private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -35,70 +35,45 @@ import com.example.android.cookiejar.data.CookieJarContract.CookieEntry;
 
 import java.text.DecimalFormat;
 
-/**
- * Allows user to add and edit cookies.
- */
+//Allows user to add and edit cookies.
 public class EditCookie extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //Identifier for the cookie data loader
     private static final int EXISTING_COOKIE_LOADER = 0;
 
-    /**
-     * Content URI for the existing cookie (null if it's a new cookie)
-     */
+    //Content URI for the existing cookie (null if it's a new cookie)
     private Uri currentCookieUri;
 
-    /**
-     * Field to enter the name of the cookie
-     */
+    //Field to enter the name of the cookie
     private EditText cookieNameEditText;
 
-    /**
-     * Field to enter the description of the cookie
-     */
+    //Field to enter the description of the cookie
     private EditText cookieDescriptionEditText;
 
-    /**
-     * Field to enter the price of the cookie
-     */
+    //Field to enter the price of the cookie
     private EditText cookiePriceEditText;
 
-    /**
-     * Field to enter the quantity of the cookie
-     */
+    //Field to enter the quantity of the cookie
     private EditText cookieQuantityEditText;
 
-    /**
-     * Dropdown to choose the type of the cookie (sweet or savoury)
-     */
+    //Dropdown to choose the type of the cookie (sweet or savoury)
     private Spinner cookieTypeSpinner;
 
-    /**
-     * Field to enter the supplier name of the cookie
-     */
+    //Field to enter the supplier name of the cookie
     private EditText cookieSupplierNameEditText;
 
-    /**
-     * Field to enter the phone number of the supplier of the cookie
-     */
+    //Field to enter the phone number of the supplier of the cookie
     private EditText cookieSupplierPhoneNrEditText;
 
-    /**
-     * Field to enter the e-mail of the supplier of the cookie
-     */
+    //Field to enter the e-mail of the supplier of the cookie
     private EditText cookieSupplierEmailEditText;
 
-    /**
-     * Type of cookie: 0 = sweet, 1 = savoury
-     */
+    //Type of cookie: 0 = sweet, 1 = savoury
     private int cookieType = 0;
 
     //Variables needed to extract the quantity of cookies and for the increment/decrement methods
     String quantityString;
     int quantity = 0;
-
-    //Buy me button
-    //final Button buyMeButton = (Button) findViewById(R.id.buy_me_button);
 
     /* Variable needed to warn the user about unsaved changes.
      * The variable will check whether the cookie was changed or not.
@@ -123,9 +98,8 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cookie);
 
-        //Attaching the more and fewer cookies buttons to check when the user adds or subtract
-        Button moreCookiesButton = (Button) findViewById(R.id.more_cookies);
-        Button fewerCookiesButton = (Button) findViewById(R.id.fewer_cookies);
+        //Buttons that will allow users to add or subtract cookies
+        Button moreCookiesButton, fewerCookiesButton;
 
         /* Examine the intent that was used to launch this activity, in order to figure out
          * if we're creating a new cookie or editing an existing one
@@ -143,7 +117,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
              */
             invalidateOptionsMenu();
 
-        } else { //We're editing an existing cookie
+        } else {
             //Existing cookie, so change the app bar title to "Edit cookie"
             setTitle(getString(R.string.app_bar_title_edit_cookie));
 
@@ -180,12 +154,12 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         cookieSupplierPhoneNrEditText.setOnTouchListener(touchListener);
         cookieSupplierEmailEditText.setOnTouchListener(touchListener);
 
+        //Setting up the dropdown list with the 2 cookie type options (sweet/savoury)
+        setupSpinner();
+
         //Connecting the buttons to change the number of cookies in stock
         moreCookiesButton = (Button) findViewById(R.id.more_cookies);
         fewerCookiesButton = (Button) findViewById(R.id.fewer_cookies);
-
-        //Setting up the dropdown list with the 2 cookie type options (sweet/savoury)
-        setupSpinner();
 
         //Increasing the number of cookies
         moreCookiesButton.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +218,8 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     }
 
     /* Setting the toolbar as the action bar and the UP navigation icon (icon_arrow_back.xml)
-        as the nav drawer button */
+     * as the nav drawer button
+     */
     private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -254,12 +229,11 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
     }
 
 
-    /**
-     * Setup the dropdown spinner that allows the user to select the type of cookie
-     */
+    //Setup the dropdown spinner that allows the user to select the type of cookie
     private void setupSpinner() {
-        //Create adapter for spinner. The list options are from the String array it will use
-        //and the spinner will use the default layout
+        /* Create adapter for the spinner. The list options are from the String array it will use
+         * and the spinner will use the default layout
+         */
         ArrayAdapter cookieTypeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_cookie_options, android.R.layout.simple_spinner_item);
 
@@ -343,14 +317,11 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
         } else {
             return true;
         }
-
         //End: data validation
 
     }
 
-    /*
-     * Get user input from editor and save the new cookie into the db
-     */
+    //Get user input from editor and save the new cookie into the db
     private void saveCookie() {
         //Reading from the form on activity_edit_cookie.xml
 
@@ -406,7 +377,7 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
             /* Otherwise this is an existing cookie, so update it with content URI: currentCookieUri
              * and pass in the new ContentValues. Pass in null for the selection and selection args
              * because currentCookieUri will already identify the correct row in the db that we want
-             * to edit
+             * to edit.
              */
             int rowsAffected = getContentResolver().update(currentCookieUri, cookieValues, null, null);
 
@@ -731,8 +702,8 @@ public class EditCookie extends AppCompatActivity implements LoaderManager.Loade
             }
         }
 
-        //Close the activity
-        finish();
+        //Close the activity and go to the cookie catalog
+        NavUtils.navigateUpFromSameTask(EditCookie.this);
     }
 
 

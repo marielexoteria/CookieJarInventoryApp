@@ -17,6 +17,6 @@ drawer-with-a-toolbar-on-android-m-68162f13d220 -->
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/nav_drawer_title"
-        style="@style/TextInNavHeader"/>
+        style="@style/SectionLabelStyle"/>
 
 </LinearLayout>
