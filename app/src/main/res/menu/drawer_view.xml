@@ -3,8 +3,7 @@
 <!-- Nav drawer code From https://developer.android.com/training/
 implementing-navigation/nav-drawer#top_of_page
 and https://medium.com/@ssaurel/implement-a-navigation-
-drawer-with-a-toolbar-on-android-m-68162f13d220
--->
+drawer-with-a-toolbar-on-android-m-68162f13d220 -->
 
 <!-- Replace icons and content -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
